@@ -18,14 +18,34 @@ app.use(cors(corsOptions));
 //Data Base Funtion 
 databaseConnect();
 
-const adminRoute=require("./routes/admin")
 
+//Routes
+const adminRoute=require("./routes/admin");
+const userRoute=require("./routes/user");
+const bannerRoute=require("./routes/banner");
+const categoryRoute=require("./routes/category");
+const productRoute=require("./routes/product")
 const routes = [
     {
       path: `${rootEndPoint}/admin/`,
       func: adminRoute,
     },
-   
+    {
+      path: `${rootEndPoint}/user/`,
+      func: userRoute,
+    },
+    {
+      path: `${rootEndPoint}/banner/`,
+      func: bannerRoute,
+    },
+    {
+      path: `${rootEndPoint}/category/`,
+      func: categoryRoute,
+    },
+    {
+      path: `${rootEndPoint}/product/`,
+      func: productRoute,
+    },
   ];
   routes.forEach(({ path, func }) => {
     app.use(path, func);
@@ -33,8 +53,8 @@ const routes = [
   app.get(`${rootEndPoint}`, (req, res) => {
     res.send("WOrking Tree");
   });
-  app.use(express.json({ limit: "50mb" }));
-app.use(express.urlencoded({ limit: "50mb", extended: true }));
+  app.use(express.json({ limit: "5mb" }));
+  app.use(express.urlencoded({ limit: "5mb", extended: true }));
 
 app.listen(process.env.PORT, (port) => {
   console.log(`Server is running on port ${process.env.PORT}`);

@@ -111,7 +111,7 @@ const LoginVerify = async (req, res) => {
     });
   }
 };
-const getAdmin = async (req, res) => {
+const getUser = async (req, res) => {
   try {
     const user = await User.findById(req.userId)
       .select("-password")
@@ -249,7 +249,7 @@ module.exports = {
   Register,
   Login,
   LoginVerify,
-  getAdmin,
+  getUser,
   ForGetPassword,
   VeriFy_ForGetPassword_OTP,
   ChnagePassword,
