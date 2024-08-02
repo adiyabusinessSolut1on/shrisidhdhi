@@ -2,24 +2,24 @@ const mongoose = require("mongoose");
 
 const reviewModel = new mongoose.Schema(
   {
-    productId: { type: String },
+    productId: { type: mongoose.Schema.Types.ObjectId, ref: "product" },
     name: {
       type: String,
-      required:true
+      required: true,
     },
     email: {
       type: String,
-      required:true
+      required: true,
     },
     message: {
       type: String,
-      required:true
+      required: true,
     },
     star: {
       type: Number,
-      required:true
+      required: true,
     },
-    isValid: { type: Boolean, default: false },
+    isVerify: { type: Boolean, default: false },
   },
   {
     timestamps: true,
