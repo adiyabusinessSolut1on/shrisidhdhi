@@ -1,4 +1,3 @@
-const Product = require("../model/productModel");
 const Review=require("../model/review")
 const Create_Review = async (req, res) => {
   try {
@@ -36,7 +35,7 @@ const GetAll_Review_By_productId = async (req, res) => {
 const Update_Review = async (req, res) => {
   const { id } = req.params;
   try {
-    const response = await Product.findByIdAndUpdate(
+    const response = await Review.findByIdAndUpdate(
         id,
         {
           $set: {
@@ -52,7 +51,7 @@ const Update_Review = async (req, res) => {
         .json({ success: false, message: "Product Not Found" });
     }
     res
-      .statsu(203)
+      .status(200)
       .json({ success: true, data: response, message: "Product Update" });
   } catch (error) {
     res.status(500).json({
@@ -72,7 +71,7 @@ const Delete_Review = async (req, res) => {
         .json({ success: false, message: "Review Not Found" });
     }
     res
-      .statsu(203)
+      .status(203)
       .json({ success: true, data: response, message: "Review Delete" });
   } catch (error) {
     res.status(500).json({
@@ -84,7 +83,7 @@ const Delete_Review = async (req, res) => {
 };
 const Get_ALL_Review = async (req, res) => {
   try {
-    const response = await Product.find();
+    const response = await Review.find();
     if (!response) {
       return res
         .status(403)

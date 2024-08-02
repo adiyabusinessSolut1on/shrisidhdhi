@@ -11,8 +11,9 @@ const {
 
 //For Admin
 router.get("/",isAdmin,Get_ALL_Review);
-router.put("/updated/:id",isAdmin,Update_Review);
-router.delete("/delete/:id",isAdmin,Delete_Review)
+router.put("/verify/:id",isAdmin,Update_Review);
+router.delete("/delete/:id",isAdmin,Delete_Review);
+
 
 //For Public
 router.post("/create",Create_Review);

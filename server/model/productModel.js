@@ -4,20 +4,24 @@ const productModel = new mongoose.Schema(
   {
     name: {
       type: String,
-      required:true
+      required: true,
     },
-    images:[{type:String}],
+    images: [{ type: String }],
     slug: {
       type: String,
-      required:true
+      required: true,
     },
     category: { type: String },
     price: {
       type: Number,
-      required:true
+      required: true,
     },
     discription: {
       type: String,
+    },
+    isDraft: {
+      type: Boolean,
+      default: false,
     },
   },
   {

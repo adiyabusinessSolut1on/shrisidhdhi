@@ -22,7 +22,7 @@ const Create_Product = async (req, res) => {
 };
 const GetAll_Product = async (req, res) => {
   try {
-    const response = await Product.find();
+    const response = await Product.find().sort({ createdAt: -1 });
     res.status(200).json(response);
   } catch (error) {
     res.status(500).json({
@@ -34,16 +34,46 @@ const GetAll_Product = async (req, res) => {
 const Update_Product_Id = async (req, res) => {
   const { id } = req.params;
   try {
-    const response = await Product.findByIdAndUpdate(id, req, body, {
+    const response = await Product.findByIdAndUpdate(id, req.body, {
       new: true,
     });
+    if (!response) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Product Not Found" });
+    }
+    res
+      .status(200)
+      .json({ success: true, data: response, message: "Product Updated" });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Internal Server Error",
+      error: error.message,
+    });
+  }
+};
+const Product_Draft_status = async (req, res) => {
+  const { id } = req.params;
+  const{isDraft}=req.body;
+  try {
+    const response = await Product.findByIdAndUpdate(
+        id,
+        {
+          $set: {
+            isDraft: isDraft
+          }
+        },
+        {
+          new: true
+        });
     if (!response) {
       return res
         .status(403)
         .json({ success: false, message: "Product Not Found" });
     }
     res
-      .statsu(203)
+      .status(203)
       .json({ success: true, data: response, message: "Product Update" });
   } catch (error) {
     res.status(500).json({
@@ -63,8 +93,8 @@ const Delete_Product_Id = async (req, res) => {
         .json({ success: false, message: "Product Not Found" });
     }
     res
-      .statsu(203)
-      .json({ success: true, data: response, message: "Product Delete" });
+      .status(203)
+      .json({ success: true, message: "Product Delete" });
   } catch (error) {
     res.status(500).json({
       success: false,
@@ -73,10 +103,21 @@ const Delete_Product_Id = async (req, res) => {
     });
   }
 };
+const GetAll_nondraftProduct = async (req, res) => {
+  try {
+    const response = await Product.find({isDraft:false}).sort({ createdAt: -1 });;
+    res.status(200).json(response);
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
 const Get_Product_by_Slug = async (req, res) => {
   const { slug } = req.params;
   try {
-    const response = await Product.findOne(slug);
+    const response = await Product.findOne({slug:slug});
     if (!response) {
       return res
         .status(403)
@@ -110,7 +151,7 @@ const GetProduct_by_Id = async (req, res) => {
 const GetProducts_by_category = async (req, res) => {
   const { category } = req.params;
   try {
-    const response = await Product.find({ category: category });
+    const response = await Product.find({ category: category,isDraft:false }).sort({ createdAt: -1 });
     if (!response) {
       return res
         .status(403)
@@ -129,6 +170,8 @@ module.exports = {
   Create_Product,
   GetAll_Product,
   Update_Product_Id,
+  GetAll_nondraftProduct,
+  Product_Draft_status,
   Delete_Product_Id,
   Get_Product_by_Slug,
   GetProduct_by_Id,
