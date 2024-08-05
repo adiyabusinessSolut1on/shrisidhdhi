@@ -102,6 +102,7 @@ const LoginVerify = async (req, res) => {
       .cookie("authorization", token, {
         httpOnly: true,
         expires: new Date(Date.now() + 24 * 60 * 60 * 1000),
+        secure: process.env.NODE_ENV === "production",
       })
       .status(200)
       .json({ success: true, message: "Login successful", token: token });
