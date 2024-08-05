@@ -8,10 +8,20 @@ mongoose.set("strictQuery", false);
 require("dotenv").config();
 const databaseConnect = require("./config/database");
 const rootEndPoint = require("./config/endpoint");
+const cookieParser = require('cookie-parser');
+app.use(cookieParser());
+
 const corsOptions = {
-  origin: '*', 
+  origin: function (origin, callback) {
+    if (process.env.ALLOWED_DOMAINS.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-  allowedHeaders: 'Content-Type,authorization', 
+  allowedHeaders: 'Content-Type,Authorization',
+  credentials: true,
 };
 app.use(cors(corsOptions));
 

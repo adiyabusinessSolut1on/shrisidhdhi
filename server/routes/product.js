@@ -19,7 +19,7 @@ router.delete("/:id",isAdmin,Delete_Product_Id);
 router.get("/",GetAll_nondraftProduct);
 router.get("/single/:slug",Get_Product_by_Slug);
 router.get("/:id",GetProduct_by_Id);
-router.get("/category/:category",GetProducts_by_category)
+router.get("/category/:category",GetProducts_by_category);
 
 
 module.exports = router;

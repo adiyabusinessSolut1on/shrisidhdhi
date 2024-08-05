@@ -18,7 +18,4 @@ router.delete("/delete/:id",isAdmin,Delete_Review);
 //For Public
 router.post("/create",Create_Review);
 router.get("/getall/:productId",GetAll_Review_By_productId);
-
-
-
 module.exports = router;

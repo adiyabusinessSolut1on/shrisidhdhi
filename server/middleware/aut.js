@@ -2,7 +2,8 @@ const jwt = require("jsonwebtoken");
 require("dotenv").config();
  const checkRole = (requiredRole) => (req, res, next) => {
   const authToken = req.headers.authorization;
-  const cookieToken = req?.cookies?.authorization;
+  const cookieToken = req.cookies.authorization;
+  console.log("cookies token",cookieToken,authToken)
   let token;
   if (authToken) {
     token = authToken;
