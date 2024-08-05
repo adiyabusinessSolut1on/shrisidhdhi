@@ -13,7 +13,7 @@ app.use(cookieParser());
 
 const corsOptions = {
   origin: function (origin, callback) {
-    if (process.env.ALLOWED_DOMAINS.includes(origin)) {
+    if (!origin || process.env.ALLOWED_DOMAINS.split(" ").includes(origin)) {
       callback(null, true);
     } else {
       callback(new Error('Not allowed by CORS'));
@@ -23,6 +23,7 @@ const corsOptions = {
   allowedHeaders: 'Content-Type,Authorization',
   credentials: true,
 };
+
 app.use(cors(corsOptions));
 
 //Data Base Funtion 
