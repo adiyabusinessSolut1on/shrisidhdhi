@@ -5,6 +5,7 @@ const jwt = require("jsonwebtoken");
 const LogInFailAlert = require("../template/login-fail");
 const Alert = require("../template/alert");
 const SendOTP = require("../template/sendOtp");
+require("dotenv").config();
 const Register = async (req, res) => {
   const { name, email, mobile, password, role } = req.body;
   try {
@@ -99,13 +100,14 @@ const LoginVerify = async (req, res) => {
       }
     );
     return res
-      .cookie("authorization", token, {
-        httpOnly: true,
-        expires: new Date(Date.now() + 24 * 60 * 60 * 1000),
-        secure: process.env.NODE_ENV === "production",
-      })
-      .status(200)
-      .json({ success: true, message: "Login successful", token: token });
+    .cookie("authorization", token, {
+      httpOnly: true, 
+      secure: process.env.NODE_ENV === "production", 
+      expires: new Date(Date.now() + 24 * 60 * 60 * 1000), 
+      path: '/' 
+    })
+    .status(200)
+    .json({ success: true, message: "Login successful", token: token });
   } catch (error) {
     res.status(500).json({
       success: false,
