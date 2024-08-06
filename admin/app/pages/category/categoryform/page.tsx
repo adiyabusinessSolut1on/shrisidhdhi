@@ -8,7 +8,7 @@ import { CategoryObjectTypes } from "@/app/network-request/types";
 import { useState } from "react";
 import { TiArrowBackOutline } from "react-icons/ti";
 
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const CategoryForm = ({
@@ -20,6 +20,8 @@ const CategoryForm = ({
     const [categoryDataForm, setCategoryDataForm] = useState({
       categoryName: isCategoryForm?.name ? isCategoryForm.name : "",
     });
+
+    console.log(isCategoryForm);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       setCategoryDataForm((prev) => ({
@@ -114,7 +116,6 @@ const CategoryForm = ({
         className="fixed inset-0 z-10 flex items-center justify-center px-4 sm:px-0 bg-black/40"
         onClick={closeHandler}
       >
-        <ToastContainer />
         <div
           className="bg-white rounded-md w-[400px]"
           onClick={(e) => e.stopPropagation()}

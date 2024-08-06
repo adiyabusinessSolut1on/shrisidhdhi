@@ -144,7 +144,7 @@ const Category = () => {
       setCategoryForm((prev) => ({
         ...prev,
         updateId: "",
-        data: "",
+        name: "",
       }));
     }
   };
