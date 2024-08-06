@@ -12,8 +12,8 @@ import CategoryForm from "./categoryform/page";
 
 interface CategoryStateType {
   creat: boolean;
-  updateId?: string;
-  data?: string;
+  updateId: string;
+  name: string;
 }
 
 const options: Intl.DateTimeFormatOptions = {
@@ -35,7 +35,7 @@ const Category = () => {
   const [isCategoryForm, setCategoryForm] = useState<CategoryStateType>({
     creat: false,
     updateId: "",
-    data: "",
+    name: "",
   });
 
   const categoryHeading = ["Category Name", "Created", "Setting"];
@@ -90,14 +90,13 @@ const Category = () => {
       id: id,
     }));
   };
+
   const updateCategory = (category: CategoryGetTypes) => {
     setCategoryForm((prev) => ({
       ...prev,
       updateId: category?._id,
-      data: category.name,
+      name: category.name,
     }));
-
-    console.log(category);
   };
 
   const handleConfirmDelete = () => {

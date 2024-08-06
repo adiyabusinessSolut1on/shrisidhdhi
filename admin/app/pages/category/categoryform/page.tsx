@@ -18,7 +18,7 @@ const CategoryForm = ({
 }: CategoryObjectTypes) => {
   {
     const [categoryDataForm, setCategoryDataForm] = useState({
-      categoryName: isCategoryForm?.data ? isCategoryForm.data : "",
+      categoryName: isCategoryForm?.name ? isCategoryForm.name : "",
     });
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {

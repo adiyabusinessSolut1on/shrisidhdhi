@@ -39,17 +39,13 @@ export interface CategoryDeletResponseType {
   success: boolean;
   message: string;
 }
-interface CategoryForm {
-  creat: boolean;
-  updateId?: string;
-  data?: string;
-}
+
 export interface CategoryObjectTypes {
   isCategoryForm: {
     creat: boolean;
-    updateId?: string;
-    data?: string;
+    updateId: string;
+    name: string;
   };
   closeHandler: () => void;
-  refetch: () => Promise<QueryObserverResult<CategoryGetTypes[], Error>>;
+  refetch: () => Promise<QueryObserverResult<CategoryResponseType, Error>>;
 }
