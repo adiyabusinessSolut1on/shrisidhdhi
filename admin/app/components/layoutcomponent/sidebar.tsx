@@ -8,7 +8,7 @@ import DailytaskICON from "../SVG/dailytaskICON";
 import RepostSVG from "../SVG/reportICON";
 import Link from "next/link";
 import "../../globals.css";
-import { useRouter } from "next/router";
+
 import { usePathname } from "next/navigation";
 import Image from "next/image";
 

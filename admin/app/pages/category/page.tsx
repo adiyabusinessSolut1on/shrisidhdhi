@@ -8,7 +8,7 @@ import { toast } from "react-toastify";
 import { useGetCategories } from "@/app/network-request/queries";
 import { useDeleteCategory } from "@/app/network-request/mutations";
 import { CategoryGetTypes } from "@/app/network-request/types";
-import CategoryForm from "./categoryform/page";
+import CategoryForm from "@/app/components/categoryform/CategoryForm";
 
 interface CategoryStateType {
   creat: boolean;

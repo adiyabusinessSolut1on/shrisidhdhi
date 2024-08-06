@@ -9,7 +9,6 @@ import { useState } from "react";
 import { TiArrowBackOutline } from "react-icons/ti";
 
 import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 
 const CategoryForm = ({
   isCategoryForm,
