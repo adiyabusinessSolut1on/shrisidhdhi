@@ -5,7 +5,6 @@ import {
   deleteCategory,
   updateCategory,
 } from "./api/categoryApi";
-import { CategoryPostTypes } from "../pages/category/page";
 
 export const useLogin = () => {
   return useMutation({
@@ -16,13 +15,11 @@ export const useLogin = () => {
 
 export const useLoginverify = () => {
   return useMutation({
-    mutationFn: (payload: { email: string; numberOtp: number }) =>
-      verifyLogin(payload.email, payload.numberOtp),
+    mutationFn: (payload: { email: string; otp: number }) =>
+      verifyLogin(payload.email, payload.otp),
   });
 };
-// export const useLogout = () => {
-//   return useMutation(() => logout());
-// };
+
 export const useLogout = () => {
   return useMutation({
     mutationFn: () => logout(),

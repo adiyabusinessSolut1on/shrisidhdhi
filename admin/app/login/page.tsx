@@ -109,7 +109,7 @@ interface prop {
   onclickSing: () => void;
 }
 const OTPVerify = ({ email, onclickSing }: prop) => {
-  const [otp, setOtp] = useState<string[]>(["", "", "", "", "", ""]);
+  const [verifyotp, setOtp] = useState<string[]>(["", "", "", "", "", ""]);
   const inputRefs = useRef<(HTMLInputElement | null)[]>(
     new Array(6).fill(null)
   );
@@ -117,14 +117,14 @@ const OTPVerify = ({ email, onclickSing }: prop) => {
   const router = useRouter();
   const { mutate } = useLoginverify();
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    if (otp === null) return;
+    if (verifyotp === null) return;
     onclickSing();
     e.preventDefault();
     const toastId = toast.loading("Checking Information, please wait...");
-    const numberOtp = +otp.join("");
-    console.log(numberOtp);
+    const otp = +verifyotp.join("");
+    console.log(otp);
     mutate(
-      { email, numberOtp },
+      { email, otp },
       {
         onSuccess: (response) => {
           console.log("Every >re>>", response);
@@ -173,7 +173,7 @@ const OTPVerify = ({ email, onclickSing }: prop) => {
   const handleChange = (index: number, value: string) => {
     if (value.length > 1 || isNaN(parseInt(value))) return; // Ensure only single numeric character is entered
 
-    const newOtp = [...otp];
+    const newOtp = [...verifyotp];
     newOtp[index] = value;
     setOtp(newOtp);
 
@@ -195,7 +195,7 @@ const OTPVerify = ({ email, onclickSing }: prop) => {
           </label>
 
           <div className="flex justify-between w-full gap-4 ">
-            {otp.map((digit, index) => (
+            {verifyotp.map((digit, index) => (
               <input
                 key={index}
                 ref={(el) => {

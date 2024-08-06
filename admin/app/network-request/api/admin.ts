@@ -22,6 +22,5 @@ export const logout = (): Promise<any> =>
     .post<any>("/admin/logout")
     .then((response) => response.data)
     .catch((error) => {
-      console.log(error, "logout");
       throw error;
     });
