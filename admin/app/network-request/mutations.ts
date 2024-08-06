@@ -5,6 +5,7 @@ import {
   deleteCategory,
   updateCategory,
 } from "./api/categoryApi";
+import { deleteReview, verifyReview } from "./api/review";
 
 export const useLogin = () => {
   return useMutation({
@@ -46,5 +47,20 @@ export const useUpdateCategory = () => {
 export const useDeleteCategory = () => {
   return useMutation({
     mutationFn: (id: string) => deleteCategory(id),
+  });
+};
+///Category
+
+//Updating Category
+export const useVerifyReview = () => {
+  return useMutation({
+    mutationFn: (payload: { id: string }) => verifyReview(payload.id),
+  });
+};
+
+//Deleting Category
+export const useDeleteReview = () => {
+  return useMutation({
+    mutationFn: (id: string) => deleteReview(id),
   });
 };

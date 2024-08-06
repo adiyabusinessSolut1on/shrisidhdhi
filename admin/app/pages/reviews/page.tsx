@@ -1,63 +1,41 @@
 "use client";
+
 import Loader from "@/app/components/loader";
 import ConfirmDeleteModal from "@/app/components/modals/ConfirmDeleteModal";
-import { useState } from "react";
+import StarRating from "@/app/components/StarRating";
+import { formatDateFun } from "@/app/components/utils/dateconverter";
+import {
+  useDeleteReview,
+  useVerifyReview,
+} from "@/app/network-request/mutations";
+import { useGetReview } from "@/app/network-request/queries";
+import { ReviewsGetTypes } from "@/app/network-request/types";
+import React, { useState } from "react";
 import { IoIosSend } from "react-icons/io";
 import { toast } from "react-toastify";
 
-import { useGetCategories } from "@/app/network-request/queries";
-import { useDeleteCategory } from "@/app/network-request/mutations";
-import { CategoryGetTypes } from "@/app/network-request/types";
-import CategoryForm from "@/app/components/categoryform/CategoryForm";
-import { formatDateFun } from "@/app/components/utils/dateconverter";
+const Reviews = () => {
+  const ReviewHeading = [
+    "Name",
+    "Email",
+    "Message",
+    "Created",
+    "Star",
+    "Verify",
+    "Setting",
+  ];
 
-interface CategoryStateType {
-  creat: boolean;
-  updateId: string;
-  name: string;
-}
+  const { data, isLoading, error, isError, refetch } = useGetReview();
 
-// const options: Intl.DateTimeFormatOptions = {
-//   year: "numeric",
-//   month: "short",
-//   day: "2-digit",
-//   hour: "2-digit",
-//   minute: "2-digit",
-
-//   hour12: true, // time is in 12-hour format with AM/PM
-// };
-
-// const formatDateFun = (dateVal: string | undefined) => {
-//   const date = new Date(dateVal ?? "");
-//   const formattedDate = new Intl.DateTimeFormat("en-US", options).format(date);
-//   return formattedDate;
-// };
-const Category = () => {
-  const [isCategoryForm, setCategoryForm] = useState<CategoryStateType>({
-    creat: false,
-    updateId: "",
-    name: "",
-  });
-
-  const categoryHeading = ["Category Name", "Created", "Setting"];
-
-  const { data, isLoading, error, isError, refetch } = useGetCategories();
-
-  console.log(data, error);
-
-  const handlingCategory = () => {
-    setCategoryForm((prev) => ({
-      ...prev,
-      creat: !prev.creat,
-    }));
-  };
+  console.log(data, error, isLoading, "for review");
 
   const [isModalOpen, setModalOpen] = useState({
     condition: false,
     id: "",
   });
 
-  const { mutate } = useDeleteCategory();
+  const deletMutation = useDeleteReview();
+  const verifyMutation = useVerifyReview();
 
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
@@ -84,36 +62,21 @@ const Category = () => {
     });
   };
 
-  const deletCategory = (id: string) => {
+  const deletHandler = (id: string) => {
     setModalOpen((prev) => ({
       ...prev,
       condition: !prev.condition,
       id: id,
     }));
   };
-
-  const updateCategory = (category: CategoryGetTypes) => {
-    setCategoryForm((prev) => ({
-      ...prev,
-      updateId: category?._id,
-      name: category.name,
-    }));
-  };
-
-  const handleConfirmDelete = () => {
-    // Handle the delete action here
+  const verifyHandler = (review: ReviewsGetTypes) => {
     const toastId = toast.loading("Checking Information, please wait...");
-    console.log("Item deleted", isModalOpen.id);
-    mutate(
-      isModalOpen.id,
-
+    verifyMutation.mutate(
+      {
+        id: review._id,
+      },
       {
         onSuccess: (response) => {
-          console.log(response);
-          setModalOpen({
-            condition: false,
-            id: "",
-          });
           refetch();
           toast.update(toastId, {
             render: response?.message || "Success!",
@@ -133,33 +96,44 @@ const Category = () => {
         },
       }
     );
+
+    console.log(review);
   };
 
-  const closeHandler = () => {
-    if (isCategoryForm.creat) {
-      setCategoryForm((prev) => ({
-        ...prev,
-        creat: !prev.creat,
-      }));
-    } else {
-      setCategoryForm((prev) => ({
-        ...prev,
-        updateId: "",
-        name: "",
-      }));
-    }
+  const handleConfirmDelete = () => {
+    // Handle the delete action here
+    const toastId = toast.loading("Checking Information, please wait...");
+    console.log("Item deleted", isModalOpen.id);
+
+    deletMutation.mutate(isModalOpen.id, {
+      onSuccess: (response) => {
+        console.log(response);
+        setModalOpen({
+          condition: false,
+          id: "",
+        });
+        refetch();
+        toast.update(toastId, {
+          render: response?.message || "Success!",
+          type: "success",
+          isLoading: false,
+          autoClose: 4000,
+        });
+      },
+      onError: (error) => {
+        console.log(error);
+        toast.update(toastId, {
+          render: "An error occurred!",
+          type: "error",
+          isLoading: false,
+          autoClose: 5000,
+        });
+      },
+    });
   };
 
   return (
     <>
-      {(isCategoryForm.creat || isCategoryForm.updateId) && (
-        <CategoryForm
-          isCategoryForm={isCategoryForm}
-          closeHandler={closeHandler}
-          refetch={refetch}
-        />
-      )}
-
       {isLoading && <Loader />}
       {isModalOpen.condition && (
         <ConfirmDeleteModal
@@ -172,11 +146,11 @@ const Category = () => {
       >
         <section
           className={` md:p-8 p-6 h-full  text-gray-600  border-gray-200 
-        rounded-md   max-w-full w-full `}
+              rounded-md   max-w-full w-full `}
         >
           <div className="flex items-center mb-2 md:mb-6">
             <h1 className=" text-[28px] font-bold md:text-4xl font-mavenPro ">
-              Category
+              Reviews
             </h1>
           </div>
           <div className="flex justify-between mb-4">
@@ -185,36 +159,24 @@ const Category = () => {
                 <input
                   type="search"
                   placeholder={` Search
-              `}
+                    `}
                   className={` p-2 text-sm md:text-base  sm:px-4 py-1 border-[2px] border-transparent 
-               bg-slate-50 focus:border-gray-100
-            shadow-inner rounded-[0.26rem] outline-none `}
+                     bg-slate-50 focus:border-gray-100
+                  shadow-inner rounded-[0.26rem] outline-none `}
                   // value={searchQuery}
                   // onChange={(e) => setSearchQuery(e.target.value)}
                   // onFocus={() => setCurrentPage(1)}
                 />
               </div>
             </div>
-            <div className="relative flex items-center self-end ">
-              <button
-                className={` px-2 py-1 
-                       bg-[#7d5a25] hover:bg-[#bf8c3e] text-white
-                  }    rounded shadow-xl md:px-4 md:py-2  sm:self-center`}
-                onClick={handlingCategory}
-              >
-                <span className="hidden md:inline-block">Creat Category</span>
-
-                <IoIosSend className="w-6 h-6 md:hidden" />
-              </button>
-            </div>
           </div>
           <section
             className={`w-full overflow-auto   border-2 [&::-webkit-scrollbar]:hidden rounded-lg  shadow-md bg-white`}
           >
-            <section className="grid gap-4 p-2 pb-2 min-w-[800px] font-medium border-gray-100 grid-cols-customeCategory md:font-semibold font-mavenPro bg-white">
+            <section className="grid gap-4 p-2 pb-2 min-w-[1050px] font-medium border-gray-100 grid-cols-customeReview md:font-semibold font-mavenPro bg-white">
               <p className="pl-2 text-gray-600 md:text-lg">SrNo.</p>
 
-              {categoryHeading?.map((heading, index) => (
+              {ReviewHeading?.map((heading, index) => (
                 <p
                   key={index}
                   className={`  text-gray-600 md:text-lg ${
@@ -226,7 +188,7 @@ const Category = () => {
               ))}
             </section>
 
-            <div className=" h-[380px] overflow-y-auto [&::-webkit-scrollbar]:hidden min-w-[800px] bg-gray-50">
+            <div className=" h-[380px] overflow-y-auto [&::-webkit-scrollbar]:hidden min-w-[1050px] bg-gray-50">
               {isError ? (
                 <p className="flex items-center justify-center w-full h-full font-medium text-center text-rose-800">
                   Check Internet connection or Contact to Admin
@@ -234,30 +196,45 @@ const Category = () => {
               ) : isLoading ? (
                 <p>Loading...</p>
               ) : data?.length !== 0 ? (
-                data?.map((category: CategoryGetTypes, i: number) => (
+                data?.map((review: ReviewsGetTypes, i: number) => (
                   <section
                     key={i}
-                    className="grid items-center gap-6 py-2 pl-6 pr-4 border-t-2 border-gray-200 grid-cols-customeCategory group hover:bg-gray-50"
+                    className="grid items-center gap-6 py-2 pl-6 pr-4 border-t-2 border-gray-200 grid-cols-customeReview group hover:bg-gray-50"
                   >
                     <span>{i + 1}</span>
-                    {/* <img src={category?.image} className="h-20 w-20 rounded-full" alt="ICON"/> */}
+                    {/* <img src={review?.image} className="h-20 w-20 rounded-full" alt="ICON"/> */}
                     <span className="ml-2 text-sm font-semibold text-gray-600 md:text-base">
-                      {category?.name}
+                      {review?.name}
+                    </span>
+                    <span className=" text-sm font-semibold text-gray-600 md:text-[15px]">
+                      {review.email}
                     </span>
                     <span className="ml-2 text-sm font-semibold text-gray-600 md:text-base">
-                      {formatDateFun(category?.createdAt)}
+                      {review.message}
+                    </span>
+                    <span className=" text-sm font-semibold text-gray-600 md:text-base">
+                      {formatDateFun(review.createdAt)}
+                    </span>
+                    <span className="ml-2 text-sm font-semibold text-gray-600 md:text-base">
+                      <StarRating rating={review.star} />
+                    </span>
+                    <span className=" flex justify-center text-sm font-semibold text-gray-600 md:text-[15px]">
+                      {review.isVerify ? "verified" : "Non-verified"}
                     </span>
 
-                    <div className="flex justify-center gap-4">
+                    <div className="grid justify-center gap-2">
                       <button
-                        className="px-3 text-sm py-2 text-white  rounded-md bg-[#7d5a25] hover:bg-[#bf8c3e]"
-                        onClick={() => updateCategory(category)}
+                        className={`px-3 text-sm py-2 text-white  rounded-md bg-[#7d5a25] hover:bg-[#bf8c3e] disabled:bg-gray-600 ${
+                          review.isVerify === true && "cursor-not-allowed"
+                        }`}
+                        onClick={() => verifyHandler(review)}
+                        disabled={review.isVerify === true}
                       >
-                        Edit
+                        {review.isVerify !== true ? "Verify" : "Verified"}
                       </button>
                       <button
                         className="px-3 py-2 text-sm text-white rounded-md bg-rose-600 hover:bg-rose-700"
-                        onClick={() => deletCategory(category?._id)}
+                        onClick={() => deletHandler(review?._id)}
                       >
                         Delete
                       </button>
@@ -272,15 +249,15 @@ const Category = () => {
             </div>
           </section>
           {/* <Pagination<awarenessCategory>
-          currentPage={currentPage}
-          apiData={data?.data}
-          itemsPerPage={itemsPerPage}
-          handleClick={handleClick}
-        /> */}
+                currentPage={currentPage}
+                apiData={data?.data}
+                itemsPerPage={itemsPerPage}
+                handleClick={handleClick}
+              /> */}
         </section>
       </section>
     </>
   );
 };
 
-export default Category;
+export default Reviews;

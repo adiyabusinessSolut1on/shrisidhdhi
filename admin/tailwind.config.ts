@@ -15,6 +15,7 @@ const config: Config = {
       },
       gridTemplateColumns: {
         customeCategory: "40px  2fr 1fr 0.6fr",
+        customeReview: "40px  1fr 2.4fr 1fr 1.4fr 1.4fr 1.2fr 0.8fr",
       },
     },
   },

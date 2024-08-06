@@ -39,6 +39,10 @@ export interface CategoryDeletResponseType {
   success: boolean;
   message: string;
 }
+export interface DeletResponseType {
+  success: boolean;
+  message: string;
+}
 
 export interface CategoryObjectTypes {
   isCategoryForm: {
@@ -48,4 +52,23 @@ export interface CategoryObjectTypes {
   };
   closeHandler: () => void;
   refetch: () => Promise<QueryObserverResult<CategoryResponseType, Error>>;
+}
+
+//review
+export interface ReviewsGetTypes {
+  createdAt: string;
+  email: string;
+  isVerify: boolean;
+  message: string;
+  name: string;
+  productId: string;
+  star: number;
+  updatedAt: string;
+  _id: string;
+}
+
+export interface ReviewResponseType {
+  success: boolean;
+  message: string;
+  data: ReviewsGetTypes[];
 }
