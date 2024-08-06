@@ -16,10 +16,9 @@ export const getMyself = (): Promise<any> =>
     });
 
 export const logout = (): Promise<any> =>
-      axios
-        .post<any>("/admin/logout")
-        .then((response) => response.data)
-        .catch((error) => {
-          throw error;
-        });
-    
+  axios
+    .post<any>("/admin/logout")
+    .then((response) => response.data)
+    .catch((error) => {
+      throw error;
+    });

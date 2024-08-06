@@ -14,9 +14,7 @@ export const useLogin = () => {
         verifyLogin(payload.email, payload.otp)
     });
   };
-  // export const useLogout = () => {
-  //   return useMutation(() => logout());
-  // };
+
   export const useLogout = () => {
     return useMutation({
       mutationFn: () => 

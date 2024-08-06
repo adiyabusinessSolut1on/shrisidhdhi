@@ -112,7 +112,6 @@ const LoginVerify = async (req, res) => {
     });
   }
 };
-
 const getAdmin = async (req, res) => {
   try {
     const user = await User.findById(req.userId)
@@ -131,7 +130,6 @@ const getAdmin = async (req, res) => {
     });
   }
 };
-
 const ForGetPassword = async (req, res) => {
   const { email } = req.body;
   try {
@@ -188,7 +186,6 @@ const VeriFy_ForGetPassword_OTP = async (req, res) => {
       .json({ error: error.message, message: "Something went wrong..." });
   }
 };
-
 const ChnagePassword = async (req, res) => {
   const { oldPassword } = req.body;
   try {
@@ -269,7 +266,6 @@ const UpdateProfile = async (req, res) => {
     });
   }
 };
-
 const handleLogoutController = async (req, res) => {
   try {
       res.clearCookie("authorization");

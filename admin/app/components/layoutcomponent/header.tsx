@@ -70,7 +70,6 @@ const [clicked,setClicked]=useState<Boolean>(false)
   const { mutate } = useLogout();
 
   const HandleLogout = () => {
-   
     mutate(undefined, {
       onSuccess: () => {
         console.log("hanel logout>>>>")
