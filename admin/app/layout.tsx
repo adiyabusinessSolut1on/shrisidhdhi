@@ -3,8 +3,10 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import ClientHeaderFooter from "./layoutComponent/adminsidebar";
 import ClientProvider from "./lib/ClientProvider";
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer } from "react-toastify";
+import ToastProvider from "./components/toastprovider/ToastProvider";
+// import 'react-toastify/dist/ReactToastify.css';
+// import ToastProvider from "./components/toastprovider/ToastProvider";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -20,10 +22,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-     
         <ClientProvider>
-        <ToastContainer/>
-        <ClientHeaderFooter>{children}</ClientHeaderFooter>
+          <ToastProvider />
+          <ClientHeaderFooter>{children}</ClientHeaderFooter>
         </ClientProvider>
       </body>
     </html>

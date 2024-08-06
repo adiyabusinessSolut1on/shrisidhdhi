@@ -41,8 +41,8 @@ const sidebarData: SidebarItem[] = [
   },
 
   {
-    name: "Reviws",
-    path: "/reviews",
+    name: "Reviews",
+    path: "/pages/reviews",
     icon: AwareNessSVG,
   },
 
