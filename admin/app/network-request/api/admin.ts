@@ -1,12 +1,14 @@
-import  { AxiosResponse } from 'axios';
-import axios from "../axios"
+import { AxiosResponse } from "axios";
+import axios from "../axios";
 export const login = (email: string, password: string) => {
   return axios.post("/admin/login", { email, password });
 };
 
-export const verifyLogin=(email:string,otp:number)=>{
-  return axios.post("/admin/login/verify",{email,otp})
-}
+export const verifyLogin = (email: string, otp: number) => {
+  return axios
+    .post("/admin/login/verify", { email, otp })
+    .then((response) => response);
+};
 export const getMyself = (): Promise<any> =>
   axios
     .get<any>("/admin")
