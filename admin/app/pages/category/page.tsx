@@ -4,10 +4,11 @@ import ConfirmDeleteModal from "@/app/components/modals/ConfirmDeleteModal";
 import { useState } from "react";
 import { IoIosSend } from "react-icons/io";
 import { toast } from "react-toastify";
-import CategoryForm from "./categoryform/page";
+
 import { useGetCategories } from "@/app/network-request/queries";
 import { useDeleteCategory } from "@/app/network-request/mutations";
 import { CategoryGetTypes } from "@/app/network-request/types";
+import CategoryForm from "./categoryform/page";
 
 interface CategoryStateType {
   creat: boolean;
