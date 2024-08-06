@@ -3,6 +3,7 @@ import {
   useCreateCategory,
   useUpdateCategory,
 } from "@/app/network-request/mutations";
+import { CategoryObjectTypes } from "@/app/network-request/types";
 
 import { useState } from "react";
 import { TiArrowBackOutline } from "react-icons/ti";
@@ -10,13 +11,11 @@ import { TiArrowBackOutline } from "react-icons/ti";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-import { PropsCategory } from "@/app/network-request/types";
-
 const CategoryForm = ({
   isCategoryForm,
   setCategoryForm,
   refetch,
-}: PropsCategory) => {
+}: CategoryObjectTypes) => {
   {
     const [categoryDataForm, setCategoryDataForm] = useState({
       categoryName: isCategoryForm?.data ? isCategoryForm.data : "",

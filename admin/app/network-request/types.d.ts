@@ -20,7 +20,6 @@ interface IUser {
 }
 
 //Category
-
 export interface CategoryGetTypes {
   _id: string;
   name: string;
@@ -45,7 +44,7 @@ interface CategoryForm {
   updateId: string;
   data: string;
 }
-interface PropsCategory {
+export interface CategoryObjectTypes {
   isCategoryForm: {
     creat: boolean;
     updateId: string;
