@@ -1,5 +1,4 @@
 "use client";
-
 import Loader from "@/app/components/loader";
 import ConfirmDeleteModal from "@/app/components/modals/ConfirmDeleteModal";
 import { useState } from "react";
@@ -8,6 +7,7 @@ import { toast } from "react-toastify";
 import CategoryForm from "./categoryform/page";
 import { useGetCategories } from "@/app/network-request/queries";
 import { useDeleteCategory } from "@/app/network-request/mutations";
+import { CategoryGetTypes } from "@/app/network-request/types";
 
 const options: Intl.DateTimeFormatOptions = {
   year: "numeric",
@@ -211,7 +211,7 @@ const Category = () => {
                 </p>
               ) : isLoading ? (
                 <p>Loading...</p>
-              ) : data?.data?.length !== 0 ? (
+              ) : data?.length !== 0 ? (
                 data?.map((category: CategoryGetTypes, i: number) => (
                   <section
                     key={i}
