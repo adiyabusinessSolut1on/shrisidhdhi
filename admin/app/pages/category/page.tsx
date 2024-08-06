@@ -9,6 +9,12 @@ import { useGetCategories } from "@/app/network-request/queries";
 import { useDeleteCategory } from "@/app/network-request/mutations";
 import { CategoryGetTypes } from "@/app/network-request/types";
 
+interface CategoryStateType {
+  creat: boolean;
+  updateId?: string;
+  data?: string;
+}
+
 const options: Intl.DateTimeFormatOptions = {
   year: "numeric",
   month: "short",
@@ -25,7 +31,7 @@ const formatDateFun = (dateVal: string | undefined) => {
   return formattedDate;
 };
 const Category = () => {
-  const [isCategoryForm, setCategoryForm] = useState({
+  const [isCategoryForm, setCategoryForm] = useState<CategoryStateType>({
     creat: false,
     updateId: "",
     data: "",
