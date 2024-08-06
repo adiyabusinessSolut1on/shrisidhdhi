@@ -51,5 +51,5 @@ export interface CategoryObjectTypes {
     data?: string;
   };
   closeHandler: () => void;
-  refetch: () => Promise<QueryObserverResult<CategoryResponseType, Error>>;
+  refetch: () => Promise<QueryObserverResult<CategoryGetTypes[], Error>>;
 }
