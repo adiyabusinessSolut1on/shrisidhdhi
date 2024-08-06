@@ -9,26 +9,6 @@ import CategoryForm from "./categoryform/page";
 import { useGetCategories } from "@/app/network-request/queries";
 import { useDeleteCategory } from "@/app/network-request/mutations";
 
-export interface CategoryGetTypes {
-  _id: string;
-  name: string;
-  createdAt: string;
-  updatedAt: string;
-}
-export interface CategoryPostTypes {
-  name: string;
-}
-
-export interface CategoryResponseType {
-  success: boolean;
-  message: string;
-  data: CategoryGetTypes[];
-}
-export interface CategoryDeletResponseType {
-  success: boolean;
-  message: string;
-}
-
 const options: Intl.DateTimeFormatOptions = {
   year: "numeric",
   month: "short",

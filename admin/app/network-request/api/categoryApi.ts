@@ -1,10 +1,10 @@
+import axios from "../axios";
 import {
   CategoryDeletResponseType,
   CategoryGetTypes,
   CategoryPostTypes,
   CategoryResponseType,
-} from "@/app/pages/category/page";
-import axios from "../axios";
+} from "../types";
 
 export const getCategories = (): Promise<CategoryGetTypes[]> =>
   axios

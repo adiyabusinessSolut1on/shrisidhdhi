@@ -1,6 +1,7 @@
 import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import { getMyself } from "./api/admin";
 import { getCategories } from "./api/categoryApi";
+import { CategoryGetTypes, IUser } from "./types";
 
 export const useGetMyself = () =>
   useQuery<IUser, Error>({
@@ -10,7 +11,7 @@ export const useGetMyself = () =>
 
 //category
 export const useGetCategories = () =>
-  useQuery<any, Error>({
+  useQuery<CategoryGetTypes[], Error>({
     queryKey: ["categories"],
     queryFn: getCategories,
   });

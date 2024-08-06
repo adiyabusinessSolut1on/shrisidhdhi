@@ -3,28 +3,14 @@ import {
   useCreateCategory,
   useUpdateCategory,
 } from "@/app/network-request/mutations";
-import { QueryObserverResult } from "@tanstack/react-query";
+
 import { useState } from "react";
 import { TiArrowBackOutline } from "react-icons/ti";
 
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { CategoryResponseType } from "../page";
 
-interface CategoryForm {
-  creat: boolean;
-  updateId: string;
-  data: string;
-}
-interface PropsCategory {
-  isCategoryForm: {
-    creat: boolean;
-    updateId: string;
-    data: string;
-  };
-  setCategoryForm: React.Dispatch<React.SetStateAction<CategoryForm>>;
-  refetch: () => Promise<QueryObserverResult<CategoryResponseType, Error>>;
-}
+import { PropsCategory } from "@/app/network-request/types";
 
 const CategoryForm = ({
   isCategoryForm,
