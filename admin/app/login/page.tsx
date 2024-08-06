@@ -153,7 +153,7 @@ const OTPVerify = ({ email, onclickSing }: prop) => {
 
   const handleKeyDown = (index: number, e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Backspace") {
-      if (otp[index] === "" && index > 0) {
+      if (verifyotp[index] === "" && index > 0) {
         inputRefs.current[index - 1]?.focus();
         setOtp((prev) => {
           const newOtp = [...prev];

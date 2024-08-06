@@ -13,7 +13,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 const CategoryForm = ({
   isCategoryForm,
-  setCategoryForm,
+  closeHandler,
   refetch,
 }: CategoryObjectTypes) => {
   {
@@ -51,6 +51,7 @@ const CategoryForm = ({
                 console.log(response);
                 refetch();
                 closeHandler();
+                clearState();
                 toast.update(toastId, {
                   render: response?.message || "Success!",
                   type: "success",
@@ -80,6 +81,7 @@ const CategoryForm = ({
                 console.log(response);
                 refetch();
                 closeHandler();
+                clearState();
                 toast.update(toastId, {
                   render: response?.message || "Success!",
                   type: "success",
@@ -100,24 +102,11 @@ const CategoryForm = ({
           );
     };
 
-    const closeHandler = () => {
-      if (isCategoryForm.creat) {
-        setCategoryForm((prev) => ({
-          ...prev,
-          creat: !prev.creat,
-        }));
-      } else {
-        setCategoryForm((prev) => ({
-          ...prev,
-          updateId: "",
-          data: "",
-        }));
-      }
-
-      setCategoryDataForm({
+    const clearState = () => {
+      setCategoryDataForm((prev) => ({
+        ...prev,
         categoryName: "",
-      });
-      console.log(categoryDataForm);
+      }));
     };
 
     return (

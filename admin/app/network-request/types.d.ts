@@ -50,6 +50,6 @@ export interface CategoryObjectTypes {
     updateId?: string;
     data?: string;
   };
-  setCategoryForm: React.Dispatch<React.SetStateAction<CategoryForm>>;
+  closeHandler: () => void;
   refetch: () => Promise<QueryObserverResult<CategoryResponseType, Error>>;
 }

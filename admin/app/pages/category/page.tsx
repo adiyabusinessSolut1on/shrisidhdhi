@@ -134,12 +134,27 @@ const Category = () => {
     );
   };
 
+  const closeHandler = () => {
+    if (isCategoryForm.creat) {
+      setCategoryForm((prev) => ({
+        ...prev,
+        creat: !prev.creat,
+      }));
+    } else {
+      setCategoryForm((prev) => ({
+        ...prev,
+        updateId: "",
+        data: "",
+      }));
+    }
+  };
+
   return (
     <>
       {(isCategoryForm.creat || isCategoryForm.updateId) && (
         <CategoryForm
           isCategoryForm={isCategoryForm}
-          setCategoryForm={setCategoryForm}
+          closeHandler={closeHandler}
           refetch={refetch}
         />
       )}
