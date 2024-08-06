@@ -71,7 +71,7 @@ const CategoryForm = ({
           )
         : updateCategory.mutate(
             {
-              id: isCategoryForm.updateId,
+              id: isCategoryForm.updateId ?? "",
 
               category: { name: categoryDataForm.categoryName },
             },

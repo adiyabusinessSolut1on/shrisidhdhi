@@ -47,8 +47,8 @@ interface CategoryForm {
 export interface CategoryObjectTypes {
   isCategoryForm: {
     creat: boolean;
-    updateId: string;
-    data: string;
+    updateId?: string;
+    data?: string;
   };
   setCategoryForm: React.Dispatch<React.SetStateAction<CategoryForm>>;
   refetch: () => Promise<QueryObserverResult<CategoryResponseType, Error>>;
