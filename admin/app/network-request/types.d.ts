@@ -41,8 +41,8 @@ export interface CategoryDeletResponseType {
 }
 interface CategoryForm {
   creat: boolean;
-  updateId: string;
-  data: string;
+  updateId?: string;
+  data?: string;
 }
 export interface CategoryObjectTypes {
   isCategoryForm: {
