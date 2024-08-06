@@ -5,21 +5,25 @@ const bodyParser = require("body-parser");
 const app = express();
 app.use(bodyParser.json());
 mongoose.set("strictQuery", false);
-require("dotenv").config({
-  path: ".env",
-  override: true,
-});
+require("dotenv").config();
 const databaseConnect = require("./config/database");
 const rootEndPoint = require("./config/endpoint");
 const cookieParser = require('cookie-parser');
 app.use(cookieParser());
 
-app.use(
-  cors({
-    origin: process.env.ALLOWED_DOMAINS?.split(" "),
-    optionsSuccessStatus: 200,
-  })
-);
+const corsOptions = {
+  origin: function (origin, callback) {
+    if (process.env.ALLOWED_DOMAINS.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  allowedHeaders: 'Content-Type,Authorization',
+  credentials: true,
+};
+app.use(cors(corsOptions));
 
 //Data Base Funtion 
 databaseConnect();

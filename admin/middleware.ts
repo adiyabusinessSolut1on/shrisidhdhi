@@ -9,7 +9,6 @@ const authPages = ["/login"];
 export async function middleware(request: NextRequest) {
     const { pathname } = request.nextUrl;
     const token = request.cookies.get("authorization");
-console.log("cookies token>>>",token);
 
     if (!authPages.includes(pathname)) {
         if (!token) {
