@@ -1,14 +1,16 @@
 import {
+  CategoryDeletResponseType,
+  CategoryGetTypes,
   CategoryPostTypes,
   CategoryResponseType,
 } from "@/app/pages/category/page";
 import axios from "../axios";
 
-export const getCategories = (): Promise<any> =>
+export const getCategories = (): Promise<CategoryGetTypes[]> =>
   axios
-    .get<any>("/category")
+    .get<CategoryGetTypes[]>("/category")
     .then((response) => {
-      console.log(response, "catgoery");
+      console.log(response, "Categoryapi, get");
       return response.data;
     })
     .catch((error) => {
@@ -21,10 +23,7 @@ export const createCategory = (
 ): Promise<CategoryResponseType> =>
   axios
     .post<CategoryResponseType>("/category/create", category)
-    .then((response) => {
-      console.log(response, "categoryApi");
-      return response.data;
-    })
+    .then((response) => response.data)
     .catch((error) => {
       throw error;
     });
@@ -40,9 +39,11 @@ export const updateCategory = (
       throw error;
     });
 
-export const deleteCategory = (id: string): Promise<any> =>
+export const deleteCategory = (
+  id: string
+): Promise<CategoryDeletResponseType> =>
   axios
-    .delete(`/category/delete/${id}`)
+    .delete<CategoryDeletResponseType>(`/category/delete/${id}`)
     .then((response) => response.data)
     .catch((error) => {
       throw error;

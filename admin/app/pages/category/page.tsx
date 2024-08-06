@@ -7,14 +7,7 @@ import { IoIosSend } from "react-icons/io";
 import { toast } from "react-toastify";
 import CategoryForm from "./categoryform/page";
 import { useGetCategories } from "@/app/network-request/queries";
-
-// import AwarenessCategoryForm from "../forms/AwarenessCategoryForm";
-// import { IoIosSend } from "react-icons/io";
-// import { useDeletePostMutation, useGetDataQuery } from "../api";
-// import { toast, ToastContainer } from "react-toastify";
-// import ConfirmDeleteModal from "../components/modal/DeleteModal";
-// import Loader from "../components/loader";
-// import Pagination from "../components/pagination/Pagination";
+import { useDeleteCategory } from "@/app/network-request/mutations";
 
 export interface CategoryGetTypes {
   _id: string;
@@ -29,7 +22,11 @@ export interface CategoryPostTypes {
 export interface CategoryResponseType {
   success: boolean;
   message: string;
-  data: CategoryGetTypes;
+  data: CategoryGetTypes[];
+}
+export interface CategoryDeletResponseType {
+  success: boolean;
+  message: string;
 }
 
 const options: Intl.DateTimeFormatOptions = {
@@ -39,7 +36,7 @@ const options: Intl.DateTimeFormatOptions = {
   hour: "2-digit",
   minute: "2-digit",
 
-  hour12: true, // Ensures the time is in 12-hour format with AM/PM
+  hour12: true, // time is in 12-hour format with AM/PM
 };
 
 const formatDateFun = (dateVal: string | undefined) => {
@@ -53,10 +50,6 @@ const Category = () => {
     updateId: "",
     data: "",
   });
-  //   const [updateData, setUpdateDate] = useState({
-  //     name: "",
-  //     image: "",
-  //   });
 
   const categoryHeading = ["Category Name", "Created", "Setting"];
 
@@ -71,16 +64,12 @@ const Category = () => {
     }));
   };
 
-  //   const { data, isLoading, isError } = useGetDataQuery({
-  //     url: "/awareness/category",
-  //   });
-
-  //   const [deletPost] = useDeletePostMutation();
-
   const [isModalOpen, setModalOpen] = useState({
     condition: false,
     id: "",
   });
+
+  const { mutate } = useDeleteCategory();
 
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
@@ -126,26 +115,37 @@ const Category = () => {
 
   const handleConfirmDelete = () => {
     // Handle the delete action here
-    toast.loading("checking Details");
+    const toastId = toast.loading("Checking Information, please wait...");
     console.log("Item deleted", isModalOpen.id);
-    // deletPost({
-    //   url: `/awareness/category/${isModalOpen.id}`,
-    // })
-    //   .then((res) => {
-    //     if (res.data.success) {
-    //       toast.dismiss();
-    //       toast.success(`${res.data.message}`);
-    //     }
-    //     console.log(res);
-    //   })
-    //   .catch(() => {
-    //     toast.dismiss();
-    //     toast.error("Not successfull to delete");
-    //   });
-    // setModalOpen({
-    //   condition: false,
-    //   id: "",
-    // });
+    mutate(
+      isModalOpen.id,
+
+      {
+        onSuccess: (response) => {
+          console.log(response);
+          setModalOpen({
+            condition: false,
+            id: "",
+          });
+          refetch();
+          toast.update(toastId, {
+            render: response?.message || "Success!",
+            type: "success",
+            isLoading: false,
+            autoClose: 4000,
+          });
+        },
+        onError: (error) => {
+          console.log(error);
+          toast.update(toastId, {
+            render: "An error occurred!",
+            type: "error",
+            isLoading: false,
+            autoClose: 5000,
+          });
+        },
+      }
+    );
   };
 
   return (
@@ -158,7 +158,7 @@ const Category = () => {
         />
       )}
 
-      {/* {isLoading && <Loader />} */}
+      {isLoading && <Loader />}
       {isModalOpen.condition && (
         <ConfirmDeleteModal
           onClose={handleCloseModal}
@@ -211,8 +211,7 @@ const Category = () => {
           >
             <section className="grid gap-4 p-2 pb-2 min-w-[800px] font-medium border-gray-100 grid-cols-customeCategory md:font-semibold font-mavenPro bg-white">
               <p className="pl-2 text-gray-600 md:text-lg">SrNo.</p>
-              {/* <p className="pl-10 text-gray-600 md:text-lg">Logo</p> */}
-              {/* <p className="pl-2 text-gray-600 md:text-lg">Image</p> */}
+
               {categoryHeading?.map((heading, index) => (
                 <p
                   key={index}
@@ -256,7 +255,7 @@ const Category = () => {
                       </button>
                       <button
                         className="px-3 py-2 text-sm text-white rounded-md bg-rose-600 hover:bg-rose-700"
-                        // onClick={() => deletCategory(category?._id)}
+                        onClick={() => deletCategory(category?._id)}
                       >
                         Delete
                       </button>
