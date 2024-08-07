@@ -39,10 +39,6 @@ export interface CategoryDeletResponseType {
   success: boolean;
   message: string;
 }
-export interface DeletResponseType {
-  success: boolean;
-  message: string;
-}
 
 export interface CategoryObjectTypes {
   isCategoryForm: {
@@ -71,4 +67,70 @@ export interface ReviewResponseType {
   success: boolean;
   message: string;
   data: ReviewsGetTypes[];
+}
+
+//banner
+
+//get
+export interface BannerGetType {
+  _id: string;
+  title: string;
+  image: string;
+  url: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+//post and put
+export interface BannerPostType {
+  title: string;
+  image: string;
+  url: string;
+}
+
+//repsonse
+export interface BannerResponseType {
+  success: boolean;
+  message: string;
+  data: BannerGetType[];
+}
+
+export interface BannerFormStateType {
+  title: string;
+  url: string;
+  imageSrc: string;
+  image: string;
+}
+
+export interface BannerStateType {
+  creat: boolean;
+  updateId: string;
+  data: BannerPostType;
+}
+
+export interface BannerObjectType {
+  close: () => void;
+  bannerData: BannerStateType;
+  refetch: () => Promise<QueryObserverResult<BannerResponseType, Error>>;
+}
+
+//Product
+//get
+export interface ProductGetType {
+  category: string;
+  createdAt: string;
+  discription: string;
+  images: string[];
+  isDraft: boolean;
+  name: string;
+  price: number;
+  slug: string;
+  updatedAt: string;
+  _id: string;
+}
+
+//universal delete type response
+export interface DeletResponseType {
+  success: boolean;
+  message: string;
 }

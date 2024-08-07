@@ -26,7 +26,7 @@ const sidebarData: SidebarItem[] = [
   },
   {
     name: "Products",
-    path: "/products",
+    path: "/pages/product",
     icon: BlogICONSVG,
   },
   {
@@ -54,7 +54,7 @@ const sidebarData: SidebarItem[] = [
 
   {
     name: "Banner",
-    path: "/banner",
+    path: "/pages/banner",
     icon: DailytaskICON,
   },
 ];
