@@ -173,7 +173,7 @@ const Reviews = () => {
           <section
             className={`w-full overflow-auto   border-2 [&::-webkit-scrollbar]:hidden rounded-lg  shadow-md bg-white`}
           >
-            <section className="grid gap-4 p-2 pb-2 min-w-[1050px] font-medium border-gray-100 grid-cols-customeReview md:font-semibold font-mavenPro bg-white">
+            <section className="grid gap-4 p-2 pb-2 min-w-[1100px] font-medium border-gray-100 grid-cols-customeReview md:font-semibold font-mavenPro bg-white">
               <p className="pl-2 text-gray-600 md:text-lg">SrNo.</p>
 
               {ReviewHeading?.map((heading, index) => (
@@ -188,7 +188,7 @@ const Reviews = () => {
               ))}
             </section>
 
-            <div className=" h-[380px] overflow-y-auto [&::-webkit-scrollbar]:hidden min-w-[1050px] bg-gray-50">
+            <div className=" h-[380px] overflow-y-auto [&::-webkit-scrollbar]:hidden min-w-[1100px] bg-gray-50">
               {isError ? (
                 <p className="flex items-center justify-center w-full h-full font-medium text-center text-rose-800">
                   Check Internet connection or Contact to Admin
@@ -212,18 +212,29 @@ const Reviews = () => {
                     <span className="ml-2 text-sm font-semibold text-gray-600 md:text-base">
                       {review.message}
                     </span>
-                    <span className=" text-sm font-semibold text-gray-600 md:text-base">
+                    <span className=" text-sm font-semibold text-gray-600 ">
                       {formatDateFun(review.createdAt)}
                     </span>
                     <span className="ml-2 text-sm font-semibold text-gray-600 md:text-base">
                       <StarRating rating={review.star} />
                     </span>
                     <span className=" flex justify-center text-sm font-semibold text-gray-600 md:text-[15px]">
-                      {review.isVerify ? "verified" : "Non-verified"}
+                      {review.isVerify ? (
+                        <span className="px-6 text-sm py-2 text-white rounded-md bg-green-400 hover:bg-green-300">
+                          Verified
+                        </span>
+                      ) : (
+                        <button
+                          className={`px-3 text-sm py-2 text-white  rounded-md bg-[#7d5a25] hover:bg-[#bf8c3e] `}
+                          onClick={() => verifyHandler(review)}
+                        >
+                          Not-Verified
+                        </button>
+                      )}
                     </span>
 
                     <div className="grid justify-center gap-2">
-                      <button
+                      {/* <button
                         className={`px-3 text-sm py-2 text-white  rounded-md bg-[#7d5a25] hover:bg-[#bf8c3e] disabled:bg-gray-600 ${
                           review.isVerify === true && "cursor-not-allowed"
                         }`}
@@ -231,7 +242,7 @@ const Reviews = () => {
                         disabled={review.isVerify === true}
                       >
                         {review.isVerify !== true ? "Verify" : "Verified"}
-                      </button>
+                      </button> */}
                       <button
                         className="px-3 py-2 text-sm text-white rounded-md bg-rose-600 hover:bg-rose-700"
                         onClick={() => deletHandler(review?._id)}
