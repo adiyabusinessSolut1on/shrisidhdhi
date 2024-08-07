@@ -94,20 +94,20 @@ export const useDeleteBanner = () => {
 
 //Product
 //creat Product
-export const useCreatProduct = () => {
-  return useMutation({
-    mutationFn: (banner: { title: string; image: string; url: string }) =>
-      createProduct(banner),
-  });
-};
+// export const useCreatProduct = () => {
+//   return useMutation({
+//     mutationFn: (banner: { title: string; image: string; url: string }) =>
+//       createProduct(banner),
+//   });
+// };
 
-//update product
-export const useUpdateProduct = () => {
-  return useMutation({
-    mutationFn: (payload: { id: string; banner: BannerPostType }) =>
-      updateProduct(payload.id, payload.banner),
-  });
-};
+// //update product
+// export const useUpdateProduct = () => {
+//   return useMutation({
+//     mutationFn: (payload: { id: string; banner: BannerPostType }) =>
+//       updateProduct(payload.id, payload.banner),
+//   });
+// };
 
 //delete
 export const useDeleteProduct = () => {
