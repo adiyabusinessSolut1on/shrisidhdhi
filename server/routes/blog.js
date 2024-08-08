@@ -5,7 +5,6 @@ const {Create,update,DeleteBlog,GetAllBlog,getBlogById,getBlogBySlug}=require(".
 
 
 //For Admin
-
 router.post("/",isAdmin,Create);
 router.put("/:id",isAdmin,update);
 router.delete("/:id",isAdmin,DeleteBlog);
@@ -13,11 +12,8 @@ router.get("/getbyid/:id",isAdmin,getBlogById);
 
 
 //for public 
-
-
 router.get("/",GetAllBlog);
 router.get("/single/:slug",getBlogBySlug);
-
 
 
 module.exports = router;
