@@ -1,4 +1,4 @@
-import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { getMyself } from "./api/admin";
 import { getCategories } from "./api/categoryApi";
 import {
@@ -10,7 +10,7 @@ import {
 } from "./types";
 import { getReview } from "./api/review";
 import { getBanner } from "./api/banner";
-import { getProducts } from "./api/product";
+import { getProducts, getSingleProduct } from "./api/product";
 
 export const useGetMyself = () =>
   useQuery<IUser, Error>({
@@ -44,4 +44,10 @@ export const useGetProduct = () =>
   useQuery<ProductGetType[], Error>({
     queryKey: ["product"],
     queryFn: getProducts,
+  });
+//product
+export const useGetSinglProduct = (payload: { id: string }) =>
+  useQuery<ProductGetType, Error>({
+    queryKey: ["product", payload.id],
+    queryFn: () => getSingleProduct(payload.id),
   });

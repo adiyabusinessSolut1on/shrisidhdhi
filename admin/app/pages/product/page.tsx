@@ -6,23 +6,22 @@ import { IoIosSend } from "react-icons/io";
 import { toast } from "react-toastify";
 
 import { useGetProduct } from "@/app/network-request/queries";
-import { useDeleteProduct } from "@/app/network-request/mutations";
+import {
+  useDeleteProduct,
+  useDraftProduct,
+} from "@/app/network-request/mutations";
 import { CategoryGetTypes, ProductGetType } from "@/app/network-request/types";
 
 import { formatDateFun } from "@/app/components/utils/dateconverter";
 
-interface CategoryStateType {
-  creat: boolean;
-  updateId: string;
-  name: string;
-}
+import { useRouter } from "next/navigation";
+
+import { FaCaretDown } from "react-icons/fa";
 
 const Product = () => {
-  //   const [isCategoryForm, setCategoryForm] = useState<CategoryStateType>({
-  //     creat: false,
-  //     updateId: "",
-  //     name: "",
-  //   });
+  const router = useRouter();
+
+  console.log(router, "product form");
 
   const productHeading = [
     "Name",
@@ -30,19 +29,14 @@ const Product = () => {
     "Category",
     "Discription",
     "Created",
-    // "Draft",
+    "Status",
     "Setting",
   ];
 
-  const { data, isLoading, error, isError, refetch } = useGetProduct();
-
-  console.log(data, error, "From product");
+  const { data, isLoading, isError, refetch } = useGetProduct();
 
   const handlingCreat = () => {
-    // setCategoryForm((prev) => ({
-    //   ...prev,
-    //   creat: !prev.creat,
-    // }));
+    router.push("/pages/product/productform");
   };
 
   const [isModalOpen, setModalOpen] = useState({
@@ -50,7 +44,28 @@ const Product = () => {
     id: "",
   });
 
-  const { mutate } = useDeleteProduct();
+  const [isOpen, setOpen] = useState<{
+    [key: string]: boolean;
+  }>({});
+
+  const [selectedStatuses, setSelectedStatuses] = useState<{
+    [key: string]: boolean;
+  }>({});
+
+  const draftData = [
+    {
+      name: "Active",
+      value: true,
+    },
+    {
+      name: "Draft",
+      value: false,
+    },
+  ];
+
+  const deletProductMutation = useDeleteProduct();
+
+  const draftproductMutation = useDraftProduct();
 
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
@@ -86,27 +101,47 @@ const Product = () => {
   };
 
   const updatHandler = (category: CategoryGetTypes) => {
-    // setCategoryForm((prev) => ({
-    //   ...prev,
-    //   updateId: category?._id,
-    //   name: category.name,
-    // }));
+    router.push(`/pages/product/productform/${category._id}`);
   };
 
   const handleConfirmDelete = () => {
     // Handle the delete action here
     const toastId = toast.loading("Checking Information, please wait...");
     console.log("Item deleted", isModalOpen.id);
-    mutate(
-      isModalOpen.id,
+    deletProductMutation.mutate(isModalOpen.id, {
+      onSuccess: (response) => {
+        console.log(response);
+        setModalOpen({
+          condition: false,
+          id: "",
+        });
+        refetch();
+        toast.update(toastId, {
+          render: response?.message || "Success!",
+          type: "success",
+          isLoading: false,
+          autoClose: 4000,
+        });
+      },
+      onError: (error) => {
+        console.log(error);
+        toast.update(toastId, {
+          render: "An error occurred!",
+          type: "error",
+          isLoading: false,
+          autoClose: 5000,
+        });
+      },
+    });
+  };
 
+  const draftHandler = (id: string, draftvalue: boolean) => {
+    const toastId = toast.loading("Checking Information, please wait...");
+    draftproductMutation.mutate(
+      { id: id, isDraft: draftvalue },
       {
         onSuccess: (response) => {
           console.log(response);
-          setModalOpen({
-            condition: false,
-            id: "",
-          });
           refetch();
           toast.update(toastId, {
             render: response?.message || "Success!",
@@ -128,31 +163,75 @@ const Product = () => {
     );
   };
 
-  const closeHandler = () => {
-    // if (isCategoryForm.creat) {
-    //   setCategoryForm((prev) => ({
-    //     ...prev,
-    //     creat: !prev.creat,
-    //   }));
-    // } else {
-    //   setCategoryForm((prev) => ({
-    //     ...prev,
-    //     updateId: "",
-    //     name: "",
-    //   }));
-    // }
+  //   const selectOption = (
+  //     field: string,
+  //     value: ProductDraft,
+  //     productId: string
+  //   ) => {
+  //     console.log(value);
+
+  //     setDraftDetail((prev) => ({
+  //       ...prev,
+  //       draft: value.name,
+  //       value: value.value,
+  //       id: productId,
+  //     }));
+  //     setOpen((prev) => ({
+  //       ...prev,
+  //       [field]: false,
+  //     }));
+
+  //     draftHandler(productId, value.value);
+  //   };
+
+  //   const selectOption = (
+  //     field: string,
+  //     value: ProductDraft,
+  //     productId: string
+  //   ) => {
+  //     setDraftDetail((prev) => ({
+  //       ...prev,
+  //       draft: value.name,
+  //       value: value.value,
+  //       id: productId,
+  //     }));
+  //     setOpen((prev) => ({
+  //       ...prev,
+  //       [field]: false,
+  //     }));
+
+  //     setSelectedStatuses((prev) => ({
+  //       ...prev,
+  //       [productId]: value.value,
+  //     }));
+
+  //     draftHandler(productId, value.value);
+  //   };
+
+  const selectOption = (
+    productId: string,
+    option: { name: string; value: boolean }
+  ) => {
+    setSelectedStatuses((prev) => ({
+      ...prev,
+      [productId]: option.value,
+    }));
+    setOpen((prev) => ({
+      ...prev,
+      [productId]: false,
+    }));
+    draftHandler(productId, option.value);
+  };
+
+  const dropdownHandler = (id: string) => {
+    setOpen((prev) => ({
+      ...prev,
+      [id]: !prev[id],
+    }));
   };
 
   return (
     <>
-      {/* {(isCategoryForm.creat || isCategoryForm.updateId) && (
-        <CategoryForm
-          isCategoryForm={isCategoryForm}
-          closeHandler={closeHandler}
-          refetch={refetch}
-        />
-      )} */}
-
       {isLoading && <Loader />}
       {isModalOpen.condition && (
         <ConfirmDeleteModal
@@ -177,8 +256,7 @@ const Product = () => {
               <div className={`flex items-center   `}>
                 <input
                   type="search"
-                  placeholder={` Search
-              `}
+                  placeholder={`Search`}
                   className={` p-2 text-sm md:text-base  sm:px-4 py-1 border-[2px] border-transparent 
                bg-slate-50 focus:border-gray-100
             shadow-inner rounded-[0.26rem] outline-none `}
@@ -188,13 +266,12 @@ const Product = () => {
                 />
               </div>
             </div>
-            <div className="relative flex items-center self-end ">
+            <div className="relative flex items-center self-end  cursor-pointer">
               <button
                 className={` px-2 py-1 
                        bg-[#7d5a25] hover:bg-[#bf8c3e] text-white
                   }    rounded shadow-xl md:px-4 md:py-2  sm:self-center `}
                 onClick={handlingCreat}
-                disabled={true}
               >
                 <span className="hidden md:inline-block">Creat Product</span>
 
@@ -234,7 +311,7 @@ const Product = () => {
                     className="grid items-center gap-6 py-2 pl-6 pr-4 border-t-2 border-gray-200 grid-cols-customeProduct group hover:bg-gray-50"
                   >
                     <span>{i + 1}</span>
-                    {/* <img src={category?.image} className="h-20 w-20 rounded-full" alt="ICON"/> */}
+
                     <span className="ml-2 text-sm font-semibold text-gray-600 md:text-base">
                       {product?.name}
                     </span>
@@ -250,9 +327,39 @@ const Product = () => {
                     <span className="ml-2 text-sm flex justify-center font-semibold text-gray-600 md:text-base">
                       {formatDateFun(product?.createdAt)}
                     </span>
-                    {/* <span className="ml-2 text-sm font-semibold text-gray-600 md:text-base">
-                      {product?.isDraft}
-                    </span> */}
+
+                    <div className="relative flex items-center">
+                      <button
+                        onClick={() => dropdownHandler(product._id)}
+                        className="flex items-center justify-between px-4 py-2 text-sm font-semibold text-gray-600 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none"
+                      >
+                        {
+                          draftData.find(
+                            (status) =>
+                              status.value === selectedStatuses[product._id] ||
+                              product.isDraft === status.value
+                          )?.name
+                        }
+                        <FaCaretDown className="ml-2" />
+                      </button>
+                      {isOpen[product._id] && (
+                        <div className="absolute right-0 top-6 mt-2 w-40 bg-white border border-gray-300 rounded-md shadow-lg">
+                          {draftData.map((option, i) => (
+                            <button
+                              key={i}
+                              onClick={() => selectOption(product._id, option)}
+                              className={`block px-4 py-2 text-sm text-gray-600 hover:bg-gray-100 w-full text-left ${
+                                selectedStatuses[product._id] === option.value
+                                  ? "bg-gray-100"
+                                  : ""
+                              }`}
+                            >
+                              {option.name}
+                            </button>
+                          ))}
+                        </div>
+                      )}
+                    </div>
                     <div className="grid justify-center gap-4">
                       <button
                         className="px-3 text-sm py-2 text-white  rounded-md bg-[#7d5a25] hover:bg-[#bf8c3e]"
@@ -271,7 +378,7 @@ const Product = () => {
                 ))
               ) : (
                 <div className="flex items-center justify-center w-full h-full font-bold text-gray-600">
-                  Add New Category
+                  Add New Product
                 </div>
               )}
             </div>
