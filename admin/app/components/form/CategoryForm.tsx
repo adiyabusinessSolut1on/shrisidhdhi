@@ -146,7 +146,7 @@ const CategoryForm = ({
                 </div>
               </div>
 
-              <div className="flex ">
+              <div className="flex justify-end">
                 <button
                   className="px-4 py-2 text-white bg-[#7d5a25] hover:bg-[#bf8c3e] rounded"
                   type="submit"

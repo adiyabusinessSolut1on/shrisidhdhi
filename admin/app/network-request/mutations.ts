@@ -1,4 +1,4 @@
-import { useMutation, UseMutationResult } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { login, logout, verifyLogin } from "./api/admin";
 import {
   createCategory,
@@ -7,8 +7,13 @@ import {
 } from "./api/categoryApi";
 import { deleteReview, verifyReview } from "./api/review";
 import { createBanner, deleteBanner, updateBanner } from "./api/banner";
-import { BannerPostType } from "./types";
-import { createProduct, deleteProduct, updateProduct } from "./api/product";
+import { BannerPostType, ProductPostType } from "./types";
+import {
+  createProduct,
+  deleteProduct,
+  draftProduct,
+  updateProduct,
+} from "./api/product";
 
 export const useLogin = () => {
   return useMutation({
@@ -93,21 +98,28 @@ export const useDeleteBanner = () => {
 };
 
 //Product
-//creat Product
-// export const useCreatProduct = () => {
-//   return useMutation({
-//     mutationFn: (banner: { title: string; image: string; url: string }) =>
-//       createProduct(banner),
-//   });
-// };
+// creat Product
+export const useCreatProduct = () => {
+  return useMutation({
+    mutationFn: (product: ProductPostType) => createProduct(product),
+  });
+};
 
-// //update product
-// export const useUpdateProduct = () => {
-//   return useMutation({
-//     mutationFn: (payload: { id: string; banner: BannerPostType }) =>
-//       updateProduct(payload.id, payload.banner),
-//   });
-// };
+//update product
+export const useUpdateProduct = () => {
+  return useMutation({
+    mutationFn: (payload: { id: string; product: ProductPostType }) =>
+      updateProduct(payload.id, payload.product),
+  });
+};
+
+//draft
+export const useDraftProduct = () => {
+  return useMutation({
+    mutationFn: (payload: { id: string; isDraft: boolean }) =>
+      draftProduct(payload.id, payload.isDraft),
+  });
+};
 
 //delete
 export const useDeleteProduct = () => {

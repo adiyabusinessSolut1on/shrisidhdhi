@@ -254,7 +254,7 @@ const Reviews = () => {
                 ))
               ) : (
                 <div className="flex items-center justify-center w-full h-full font-bold text-gray-600">
-                  Add New Category
+                  Add New Review
                 </div>
               )}
             </div>

@@ -1,10 +1,9 @@
 import axios from "../axios";
 import {
-  CategoryDeletResponseType,
-  CategoryGetTypes,
-  CategoryPostTypes,
-  CategoryResponseType,
+  DeletResponseType,
   ProductGetType,
+  ProductPostType,
+  ProductResponseType,
 } from "../types";
 
 export const getProducts = (): Promise<ProductGetType[]> =>
@@ -18,12 +17,23 @@ export const getProducts = (): Promise<ProductGetType[]> =>
       console.log(error.message, error);
       throw error;
     });
+export const getSingleProduct = (id: string): Promise<ProductGetType> =>
+  axios
+    .get<ProductGetType>(`/product/${id}`)
+    .then((response) => {
+      console.log(response, "ProductApi, get");
+      return response.data;
+    })
+    .catch((error) => {
+      console.log(error.message, error);
+      throw error;
+    });
 
 export const createProduct = (
-  category: CategoryPostTypes
-): Promise<CategoryResponseType> =>
+  product: ProductPostType
+): Promise<ProductResponseType> =>
   axios
-    .post<CategoryResponseType>("/product/create", category)
+    .post<ProductResponseType>("/product/create", product)
     .then((response) => response.data)
     .catch((error) => {
       throw error;
@@ -31,18 +41,29 @@ export const createProduct = (
 
 export const updateProduct = (
   id: string,
-  category: CategoryPostTypes
-): Promise<CategoryResponseType> =>
+  product: ProductPostType
+): Promise<ProductResponseType> =>
   axios
-    .put<CategoryResponseType>(`/product/update/${id}`, category)
+    .put<ProductResponseType>(`/product/${id}`, product)
     .then((response) => response.data)
     .catch((error) => {
       throw error;
     });
 
-export const deleteProduct = (id: string): Promise<CategoryDeletResponseType> =>
+export const draftProduct = (
+  id: string,
+  isDraft: boolean
+): Promise<DeletResponseType> =>
   axios
-    .delete<CategoryDeletResponseType>(`/product/delete/${id}`)
+    .put<DeletResponseType>(`/product/draft/${id}`, { isDraft })
+    .then((response) => response.data)
+    .catch((error) => {
+      throw error;
+    });
+
+export const deleteProduct = (id: string): Promise<DeletResponseType> =>
+  axios
+    .delete<DeletResponseType>(`/product/${id}`)
     .then((response) => response.data)
     .catch((error) => {
       throw error;
