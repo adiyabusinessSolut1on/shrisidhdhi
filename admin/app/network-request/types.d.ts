@@ -129,6 +129,22 @@ export interface ProductGetType {
   _id: string;
 }
 
+export interface ProductPostType {
+  category: string;
+  discription: string;
+  isDraft: boolean;
+  images: string[];
+  name: string;
+  price: number;
+  slug: string;
+}
+
+export interface ProductResponseType {
+  success: boolean;
+  message: string;
+  data: ProductGetType[];
+}
+
 //universal delete type response
 export interface DeletResponseType {
   success: boolean;
