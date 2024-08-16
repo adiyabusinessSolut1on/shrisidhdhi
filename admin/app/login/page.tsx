@@ -33,6 +33,7 @@ const Login = () => {
           });
         },
         onError: (error) => {
+          setloading(false);
           toast.update(toastId, {
             render: "An error occurred!",
             type: "error",
@@ -122,7 +123,7 @@ const OTPVerify = ({ email, onclickSing }: prop) => {
     e.preventDefault();
     const toastId = toast.loading("Checking Information, please wait...");
     const otp = +verifyotp.join("");
-    console.log(otp);
+  
     mutate(
       { email, otp },
       {

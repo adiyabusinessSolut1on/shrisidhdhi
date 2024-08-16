@@ -16,13 +16,6 @@ const DynamicImageGrid = ({ getValue, initialValue }: DynamicInputProps) => {
   const [inputFields, setInputFields] = React.useState<any[]>([]);
   const [progress, setProgress] = useState<number[]>([]);
 
-  // const handleFormChange = (index: number, event: any) => {
-  //   let data = [...inputFields] as any;
-  //   data[index] = event.target.files[0];
-  //   setInputFields(data);
-  //   getValue(data);
-  // };
-
   const handleFormChange = async (index: number, event: any) => {
     let data = [...inputFields] as any;
     let progressData = [...progress];
@@ -77,7 +70,7 @@ const DynamicImageGrid = ({ getValue, initialValue }: DynamicInputProps) => {
   return (
     <React.Fragment>
       <div className="grid gap-2 grid-cols-1 md:grid-cols-2  lg:grid-cols-3 col-span-1 md:col-span-2">
-        {inputFields.map((data, index) => {
+        {inputFields?.map((data, index) => {
           const imagePickerId = `image-${index}`;
           return (
             <div key={index} className="flex flex-col">
@@ -98,18 +91,18 @@ const DynamicImageGrid = ({ getValue, initialValue }: DynamicInputProps) => {
                       alt=""
                       className="w-full object-cover min-h-[90px]"
                     />
-                    <div className="absolute top-1 right-1 opacity-0 flex flex-col gap-1 transition-opacity duration-100 ease-in-out group-hover:opacity-100">
+                    <div className="absolute top-1 right-1 opacity-1 flex flex-col gap-1 transition-opacity duration-100 ease-in-out group-hover:opacity-100">
                       <label
                         htmlFor={imagePickerId}
-                        className="flex items-center justify-center p-1 bg-gray-900 rounded cursor-pointer"
+                        className="flex items-center justify-center bg-gray-400 p-1  rounded cursor-pointer"
                       >
-                        <EditICONSVG height={18} width={18} fill={"#222"} />
+                        <EditICONSVG height={18} width={18} fill={"#f8f8f8"} />
                       </label>
                       <span
-                        className="flex items-center justify-center p-1 bg-gray-900 rounded cursor-pointer"
+                        className="flex items-center justify-center p-1 bg-gray-400 rounded cursor-pointer"
                         onClick={() => removeFields(index)}
                       >
-                        <DeleteICONSVG height={16} width={16} fill={"#222"} />
+                        <DeleteICONSVG height={16} width={16} fill={"#ce2e2e"} />
                       </span>
                     </div>
 

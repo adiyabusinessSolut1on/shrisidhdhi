@@ -35,7 +35,8 @@ const userRoute=require("./routes/user");
 const bannerRoute=require("./routes/banner");
 const categoryRoute=require("./routes/category");
 const productRoute=require("./routes/product");
-const reviewRoute=require("./routes/review")
+const reviewRoute=require("./routes/review");
+const blogRoute=require("./routes/blog")
 const routes = [
     {
       path: `${rootEndPoint}/admin/`,
@@ -60,6 +61,10 @@ const routes = [
     {
       path: `${rootEndPoint}/review/`,
       func: reviewRoute,
+    },
+    {
+      path: `${rootEndPoint}/blogs/`,
+      func: blogRoute,
     },
   ];
   routes.forEach(({ path, func }) => {

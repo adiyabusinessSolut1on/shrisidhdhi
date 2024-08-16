@@ -16,7 +16,11 @@ import Link from "next/link";
 import { useUpdateProduct } from "@/app/network-request/mutations";
 import { useRouter } from "next/navigation";
 import DynamicImageGrid from "@/app/components/dynamicimagegrid";
-
+import dynamic from "next/dynamic";
+const IRichTextEditor = dynamic(() => import("@mantine/rte"), {
+  ssr: false,
+  loading: () => null,
+});
 export interface ProductDraft {
   name: string;
   value: boolean;
@@ -89,16 +93,22 @@ const UpdateProductForm = ({ params }: { params: { id: string } }) => {
         image: singlrProductData?.images || [],
       });
     }
-  }, [isUpdate, isError, data]);
+  }, [
+    isUpdate,
+    isError,
+    data,
+    singleIsError,
+    singlrProductData
+  ]);
 
   const draftData = [
     {
       name: "Active",
-      value: true,
+      value: false,
     },
     {
       name: "Draft",
-      value: false,
+      value: true,
     },
   ];
 
@@ -304,14 +314,27 @@ const UpdateProductForm = ({ params }: { params: { id: string } }) => {
                 getValue={imagehandler}
                 initialValue={[...productData.image]}
               />
-              <textarea
+             <div className=" flex flex-col w-screen">
+                <label className="text-gray-600">Content: </label>
+              <IRichTextEditor
+                id="rte"
+                sticky={false}
                 value={productData.discription}
-                onChange={handleChange}
-                name="discription"
-                className="w-full h-24 py-4 pl-4 font-medium bg-green-100 border border-transparent border-gray-400 rounded-md outline-none md:col-span-2 focus:border-blue-200 "
-                placeholder="Write Details"
-                required
+                onChange={(value, delta, sources) =>
+                  setproductData({
+                    ...productData,
+                    discription: value,
+                  })
+                }
+             
+                controls={[
+                  ["bold", "italic", "underline"],
+                  ["link", "image", "video", "blockquote", "code"],
+                  ["unorderedList", "h1", "h2", "h3"],
+                  ["alignLeft", "alignCenter", "alignRight"],
+                ]}
               />
+              </div>
             </div>
 
             <div className="flex justify-end">

@@ -18,6 +18,17 @@ interface IUser {
   createdAt: string;
   updatedAt: string;
 }
+interface BlogTypes {
+  _id: string;
+  title: string;
+  image:string;
+  slug: string;
+  category: string;
+  tags: string[];
+  content: string;
+  createdAt: string;
+  updatedAt: string;
+}
 
 //Category
 export interface CategoryGetTypes {
@@ -139,14 +150,29 @@ export interface ProductPostType {
   slug: string;
 }
 
+export interface BlogPostType{
+  title:string;
+  slug:string;
+  image:string;
+  category:string;
+  tags:string[];
+  content:string;
+}
+
 export interface ProductResponseType {
   success: boolean;
   message: string;
   data: ProductGetType[];
 }
-
+export interface BlogResponseType {
+  success: boolean;
+  message: string;
+  data: BlogTypes[];
+}
 //universal delete type response
 export interface DeletResponseType {
   success: boolean;
   message: string;
 }
+
+

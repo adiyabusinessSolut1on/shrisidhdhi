@@ -11,6 +11,7 @@ import "../../globals.css";
 
 import { usePathname } from "next/navigation";
 import Image from "next/image";
+import OrderIconSVG from "../SVG/OrderIcon";
 
 interface SidebarItem {
   name: string;
@@ -21,7 +22,7 @@ interface SidebarItem {
 const sidebarData: SidebarItem[] = [
   {
     name: "Report",
-    path: "/report",
+    path: "/pages/report",
     icon: RepostSVG,
   },
   {
@@ -36,7 +37,7 @@ const sidebarData: SidebarItem[] = [
   },
   {
     name: "Blogs",
-    path: "/blogs",
+    path: "/pages/blogs",
     icon: CategoryICONSVG,
   },
 
@@ -48,7 +49,7 @@ const sidebarData: SidebarItem[] = [
 
   {
     name: "Users",
-    path: "/users",
+    path: "/pages/users",
     icon: UserSVG,
   },
 
@@ -57,6 +58,11 @@ const sidebarData: SidebarItem[] = [
     path: "/pages/banner",
     icon: DailytaskICON,
   },
+  {
+    name:"Orders",
+    path:"/pages/banner",
+    icon:OrderIconSVG
+  }
 ];
 
 interface subProps {

@@ -8,7 +8,7 @@ import {
 
 export const getProducts = (): Promise<ProductGetType[]> =>
   axios
-    .get<ProductGetType[]>("/product")
+    .get<ProductGetType[]>("/product/all")
     .then((response) => {
       console.log(response, "ProductApi, get");
       return response.data;
@@ -68,3 +68,5 @@ export const deleteProduct = (id: string): Promise<DeletResponseType> =>
     .catch((error) => {
       throw error;
     });
+
+

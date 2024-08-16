@@ -25,9 +25,9 @@ const Reviews = () => {
     "Setting",
   ];
 
-  const { data, isLoading, error, isError, refetch } = useGetReview();
+  const { data, isLoading, isError, refetch } = useGetReview();
 
-  console.log(data, error, isLoading, "for review");
+  
 
   const [isModalOpen, setModalOpen] = useState({
     condition: false,

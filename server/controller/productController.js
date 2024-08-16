@@ -105,7 +105,7 @@ const Delete_Product_Id = async (req, res) => {
 };
 const GetAll_nondraftProduct = async (req, res) => {
   try {
-    const response = await Product.find({isDraft:false}).sort({ createdAt: -1 });;
+    const response = await Product.find({isDraft:false}).sort({ createdAt: -1 }).select("-isDraft");
     res.status(200).json(response);
   } catch (error) {
     res.status(500).json({
@@ -117,7 +117,7 @@ const GetAll_nondraftProduct = async (req, res) => {
 const Get_Product_by_Slug = async (req, res) => {
   const { slug } = req.params;
   try {
-    const response = await Product.findOne({slug:slug});
+    const response = await Product.findOne({slug:slug}).select("-isDraft");
     if (!response) {
       return res
         .status(403)
@@ -151,7 +151,7 @@ const GetProduct_by_Id = async (req, res) => {
 const GetProducts_by_category = async (req, res) => {
   const { category } = req.params;
   try {
-    const response = await Product.find({ category: category,isDraft:false }).sort({ createdAt: -1 });
+    const response = await Product.find({ category: category,isDraft:false }).sort({ createdAt: -1 }).select("-isDraft");
     if (!response) {
       return res
         .status(403)

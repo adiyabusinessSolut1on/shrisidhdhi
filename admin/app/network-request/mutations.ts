@@ -7,13 +7,15 @@ import {
 } from "./api/categoryApi";
 import { deleteReview, verifyReview } from "./api/review";
 import { createBanner, deleteBanner, updateBanner } from "./api/banner";
-import { BannerPostType, ProductPostType } from "./types";
+
 import {
   createProduct,
   deleteProduct,
   draftProduct,
   updateProduct,
 } from "./api/product";
+import { BannerPostType, BlogPostType, ProductPostType } from "./types";
+import { createBlog, deleteBlog, updateBlog } from "./api/blog";
 
 export const useLogin = () => {
   return useMutation({
@@ -125,5 +127,27 @@ export const useDraftProduct = () => {
 export const useDeleteProduct = () => {
   return useMutation({
     mutationFn: (id: string) => deleteProduct(id),
+  });
+};
+
+
+//Create Blog
+export const useCreatBlog = () => {
+  return useMutation({
+    mutationFn: (blog: BlogPostType) => createBlog(blog),
+  });
+};
+
+// delkete blog
+export const useDeletBlog = () => {
+  return useMutation({
+    mutationFn: (id: string) => deleteBlog(id),
+  });
+};
+//Update Blog
+export const useUpdateBlog = () => {
+  return useMutation({
+    mutationFn: (payload: { id: string; blog: BlogPostType }) =>
+      updateBlog(payload.id, payload.blog),
   });
 };

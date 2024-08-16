@@ -3,10 +3,11 @@ import "../globals.css"
 import Link from "next/link";
 import { ItemWithImage } from "../types";
 
-const ProductCard = ({ name, image, price }: ItemWithImage) => {
+const ProductCard = ({ name, image, price,slug,_id }: ItemWithImage) => {
+  console.log("image data image>>>",image)
   return (
     <Link
-    href={"/product"}
+    href={`/product/${slug}`}
       className="relative flex flex-col gap-[20px] "
       
     >
@@ -15,9 +16,10 @@ const ProductCard = ({ name, image, price }: ItemWithImage) => {
           <span className="box-border block overflow-hidden w-auto h-auto bg-none relative opacity-1">
             <span className="box-border block w-auto h-auto bg-transparent opacity-100 border-0 m-0 p-[70%_0_0_0]"></span>
             <Image
-              src={image}
-              width={1000}
-              height={1000}
+              src={image[0]}
+              priority
+              width={500} 
+              height={500}
               quality={100}
               alt={name}
               className="absolute hover:scale-2 inset-0 box-border p-0 border-none m-auto block  min-w-full max-w-full min-h-full max-h-full hover:scale-110 transition-all duration-[600ms] ease-custom"

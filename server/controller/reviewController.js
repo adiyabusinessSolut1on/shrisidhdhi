@@ -20,10 +20,13 @@ const Create_Review = async (req, res) => {
     });
   }
 };
+
 const GetAll_Review_By_productId = async (req, res) => {
   const { productId } = req.params;
   try {
-    const response = await Review.find({ productId: productId, isVerify:true });
+    const response = await Review.find({ productId: productId, isVerify: true })
+      .sort({ createdAt: -1 })
+      .select("-isVerify");
     res.status(200).json(response);
   } catch (error) {
     res.status(500).json({

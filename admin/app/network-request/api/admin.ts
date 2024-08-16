@@ -24,3 +24,13 @@ export const logout = (): Promise<any> =>
     .catch((error) => {
       throw error;
     });
+
+
+export const getAllUser = (): Promise<any> =>
+  axios
+    .get<any>("/user/all")
+    .then((response) => response.data)
+    .catch((error) => {
+      throw error;
+    });
+

@@ -4,19 +4,20 @@ import ConfirmDeleteModal from "@/app/components/modals/ConfirmDeleteModal";
 import { useState } from "react";
 import { IoIosSend } from "react-icons/io";
 import { toast } from "react-toastify";
-
+import Image from "next/image"
 import { useGetProduct } from "@/app/network-request/queries";
 import {
   useDeleteProduct,
   useDraftProduct,
 } from "@/app/network-request/mutations";
-import { CategoryGetTypes, ProductGetType } from "@/app/network-request/types";
+
 
 import { formatDateFun } from "@/app/components/utils/dateconverter";
 
 import { useRouter } from "next/navigation";
 
 import { FaCaretDown } from "react-icons/fa";
+import { CategoryGetTypes, ProductGetType } from "@/app/network-request/types";
 
 const Product = () => {
   const router = useRouter();
@@ -24,10 +25,11 @@ const Product = () => {
   console.log(router, "product form");
 
   const productHeading = [
+    "Image",
     "Name",
     "Price",
     "Category",
-    "Discription",
+   
     "Created",
     "Status",
     "Setting",
@@ -55,11 +57,11 @@ const Product = () => {
   const draftData = [
     {
       name: "Active",
-      value: true,
+      value: false,
     },
     {
       name: "Draft",
-      value: false,
+      value: true,
     },
   ];
 
@@ -162,51 +164,6 @@ const Product = () => {
       }
     );
   };
-
-  //   const selectOption = (
-  //     field: string,
-  //     value: ProductDraft,
-  //     productId: string
-  //   ) => {
-  //     console.log(value);
-
-  //     setDraftDetail((prev) => ({
-  //       ...prev,
-  //       draft: value.name,
-  //       value: value.value,
-  //       id: productId,
-  //     }));
-  //     setOpen((prev) => ({
-  //       ...prev,
-  //       [field]: false,
-  //     }));
-
-  //     draftHandler(productId, value.value);
-  //   };
-
-  //   const selectOption = (
-  //     field: string,
-  //     value: ProductDraft,
-  //     productId: string
-  //   ) => {
-  //     setDraftDetail((prev) => ({
-  //       ...prev,
-  //       draft: value.name,
-  //       value: value.value,
-  //       id: productId,
-  //     }));
-  //     setOpen((prev) => ({
-  //       ...prev,
-  //       [field]: false,
-  //     }));
-
-  //     setSelectedStatuses((prev) => ({
-  //       ...prev,
-  //       [productId]: value.value,
-  //     }));
-
-  //     draftHandler(productId, value.value);
-  //   };
 
   const selectOption = (
     productId: string,
@@ -311,7 +268,9 @@ const Product = () => {
                     className="grid items-center gap-6 py-2 pl-6 pr-4 border-t-2 border-gray-200 grid-cols-customeProduct group hover:bg-gray-50"
                   >
                     <span>{i + 1}</span>
-
+                    <span className="ml-6 text-sm font-semibold text-gray-600 md:text-base">
+                     {product?.images[0]? <Image className="h-15 w-15 rounded-full shadow-sm shadow-black" src={product?.images[0]} alt="product" height={100} width={100} priority/>:"product image"}
+                    </span>
                     <span className="ml-2 text-sm font-semibold text-gray-600 md:text-base">
                       {product?.name}
                     </span>
@@ -321,9 +280,7 @@ const Product = () => {
                     <span className="ml-2 text-sm font-semibold text-gray-600 md:text-base">
                       {product?.category}
                     </span>
-                    <span className="ml-6 text-sm font-semibold text-gray-600 md:text-base">
-                      {product?.discription}
-                    </span>
+                   
                     <span className="ml-2 text-sm flex justify-center font-semibold text-gray-600 md:text-base">
                       {formatDateFun(product?.createdAt)}
                     </span>

@@ -5,6 +5,7 @@ import ClientProvider from './provide';
 
 import type { Metadata } from 'next';
 import ClientHeaderFooter from './layoutcomponent/ClientHeaderFooter';
+import ClientProviderQuery from './lib/ClientProvider';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
@@ -16,11 +17,15 @@ const RootLayout: FC<{ children: React.ReactNode }> = ({ children }) => {
   return (
     <html lang="en">
       <body className={inter.className}>
+     
         <ClientProvider>
+        <ClientProviderQuery>
           <ClientHeaderFooter>
             {children}
           </ClientHeaderFooter>
+          </ClientProviderQuery>
         </ClientProvider>
+      
       </body>
     </html>
   );

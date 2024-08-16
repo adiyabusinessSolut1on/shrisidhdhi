@@ -59,7 +59,7 @@ const getBlogById = async (req, res) => {
         .status(404)
         .json({ success: false, message: "Blog not found" });
     }
-    res.status(200).json({ success: true, data: blog });
+    res.status(200).json( blog );
   } catch (error) {
     res.status(400).json({ success: false, error: error.message });
   }

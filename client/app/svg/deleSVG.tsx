@@ -1,11 +1,7 @@
-interface Props {
-  width?: number;
-  height?: number;
-  fill?: string;
-  className?: string;
-}
+import { SVGPropstypes } from "../types";
 
-const DeleteSVG = (prop: Props) => {
+
+const DeleteSVG = (prop: SVGPropstypes) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"

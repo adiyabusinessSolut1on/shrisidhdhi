@@ -245,6 +245,19 @@ const UpdateProfile = async (req, res) => {
     });
   }
 };
+
+const GetAllUser = async (req, res) => {
+  try {
+    const user = await User.find().select("-password").select("-otp");
+
+    return res.status(200).json(user);
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
 module.exports = {
   Register,
   Login,
@@ -254,5 +267,6 @@ module.exports = {
   VeriFy_ForGetPassword_OTP,
   ChnagePassword,
   VeriFy_ChnagePassword_OTP,
-  UpdateProfile
+  UpdateProfile,
+  GetAllUser
 };

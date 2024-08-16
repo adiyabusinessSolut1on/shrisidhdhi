@@ -2,6 +2,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useSpring, animated } from '@react-spring/web';
 import Image from 'next/image';
+import { BannerGetType } from '../api-request/types';
+import Link from 'next/link';
 
 
 interface Banner {
@@ -11,7 +13,7 @@ interface Banner {
 }
 
 interface CustomSliderProps {
-  banners: Banner[];
+  banners: BannerGetType[];
   settings: {
     dots?: boolean;
     infinite?: boolean;
@@ -73,20 +75,20 @@ const CustomSlider: React.FC<CustomSliderProps> = ({ banners, settings }) => {
             <div key={index} className={`relative w-full flex-shrink-0 ${settings.slidesToShow ? `w-${100 / settings.slidesToShow}%` : 'w-full'}`}>
               <div className="relative w-full h-[33rem]">
                 <Image
-                  src={banner.image}
+                  src={banner?.image}
                   alt={`Banner ${index}`}
                   layout="fill"
                   objectFit="cover"
                   className="w-full h-full"
                 />
                 <div className="absolute inset-0 flex flex-col items-center justify-center text-center text-white bg-black bg-opacity-50">
-                  <h1 className="text-3xl font-bold md:text-5xl">{banner.title}</h1>
-                  <a
-                    href={banner.link}
+                 {banner?.title&& <h1 className="text-3xl font-bold md:text-5xl">{banner?.title}</h1>}
+                  {banner?.url&&<Link
+                    href={banner?.url}
                     className="mt-4 px-6 py-2 text-lg font-medium text-white bg-purple-600 rounded hover:bg-purple-700"
                   >
                     Check Now
-                  </a>
+                  </Link>}
                 </div>
               </div>
             </div>
