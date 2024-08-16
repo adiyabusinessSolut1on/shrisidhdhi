@@ -9,7 +9,7 @@ const authPages = ["/login"];
 export async function middleware(request: NextRequest) {
     const { pathname } = request.nextUrl;
     const token = request.cookies.get("authorization");
-
+    
     if (!authPages.includes(pathname)) {
         if (!token) {
             return NextResponse.redirect(new URL("/login", request.url));
