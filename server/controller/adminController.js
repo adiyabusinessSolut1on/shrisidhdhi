@@ -101,8 +101,9 @@ const LoginVerify = async (req, res) => {
     return res
       .cookie("authorization", token, {
         httpOnly: true,
-        secure:true,
+        secure: process.env.NODE_ENV === 'production',
         sameSite: 'None',
+        domain:".vercel.app",
         expires: new Date(Date.now() + 24 * 60 * 60 * 1000),
       })
       .status(200)
