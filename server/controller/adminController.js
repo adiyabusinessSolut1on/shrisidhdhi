@@ -100,8 +100,9 @@ const LoginVerify = async (req, res) => {
     );
     return res
       .cookie("authorization", token, {
-        // httpOnly: true,
-        // secure:true,
+        httpOnly: true,
+        secure:true,
+        sameSite: 'None',
         expires: new Date(Date.now() + 24 * 60 * 60 * 1000),
       })
       .status(200)
