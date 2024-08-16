@@ -20,7 +20,7 @@ const corsOptions = {
     }
   },
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-  allowedHeaders: 'Content-Type,Authorization',
+  allowedHeaders: 'Content-Type,authorization',
   credentials: true,
 };
 app.use(cors(corsOptions));
