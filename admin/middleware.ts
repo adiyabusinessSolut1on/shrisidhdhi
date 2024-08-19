@@ -8,6 +8,9 @@ const authPages = ["/login"];
 
 export async function middleware(request: NextRequest) {
     const { pathname } = request.nextUrl;
+    const allCookies = request.cookies.getAll();
+    console.log('All Cookies:', allCookies); 
+
     const token = request.cookies.get("authorization");
     console.log('Token:', token);
     if (!authPages.includes(pathname)) {
