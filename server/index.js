@@ -22,7 +22,7 @@ const corsOptions = {
     }
   },
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-  allowedHeaders: ['Content-Type', 'Authorization', 'Access-Control-Allow-Origin', 'Access-Control-Allow-Credentials'],
+  allowedHeaders: ['Content-Type', 'Authorization',"authorization", 'Access-Control-Allow-Origin', 'Access-Control-Allow-Credentials'],
   credentials: true, 
 };
 app.use(cors(corsOptions));
