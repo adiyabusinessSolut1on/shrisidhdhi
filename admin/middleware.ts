@@ -12,7 +12,6 @@ export async function middleware(request: NextRequest) {
     console.log('All Cookies:', allCookies); 
 
     const token = request.cookies.get("authorization");
-    console.log('Token:', token);
     if (!authPages.includes(pathname)) {
         if (!token) {
             return NextResponse.redirect(new URL("/login", request.url));
