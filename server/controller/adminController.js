@@ -100,9 +100,10 @@ const LoginVerify = async (req, res) => {
 
     res.cookie("authorization", token, {
       httpOnly: true,
-      secure: true,
-      sameSite:"none",
-      expires: new Date(Date.now() + 24 * 60 * 60 * 1000),
+      secure: process.env.NODE_ENV === "production", 
+      sameSite: "None", 
+      expires: new Date(Date.now() + 24 * 60 * 60 * 1000), 
+      path: "/", 
     });
     console.log("Cookies set in response:>>", res.getHeader("Set-Cookie"));
     return res
