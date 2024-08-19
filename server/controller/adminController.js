@@ -98,7 +98,7 @@ const LoginVerify = async (req, res) => {
       }
     );
 
-    await res.cookie("authorization", token, {
+    res.cookie("authorization", token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production", 
       sameSite: "None", 
