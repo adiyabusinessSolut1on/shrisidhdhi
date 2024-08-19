@@ -9,12 +9,14 @@ require("dotenv").config();
 const databaseConnect = require("./config/database");
 const rootEndPoint = require("./config/endpoint");
 const cookieParser = require('cookie-parser');
+const http = require("http");
+const server = http.createServer(app);
 app.use(cookieParser());
 
 const allowedDomains = process.env.ALLOWED_DOMAINS.split(' ');
 
 const corsOptions = {
-  origin: "https://shrisidhdhi-admin.vercel.app",
+  origin: process.env.ALLOWED_DOMAINS.split(' '),
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   allowedHeaders: ['Content-Type', 'Authorization',"authorization", 'Access-Control-Allow-Origin', 'Access-Control-Allow-Credentials'],
   credentials: true, 
@@ -66,12 +68,13 @@ const routes = [
   routes.forEach(({ path, func }) => {
     app.use(path, func);
   });
+  app.disable("x-powered-by");
   app.get(`${rootEndPoint}`, (req, res) => {
     res.send("WOrking Tree");
   });
   app.use(express.json({ limit: "5mb" }));
   app.use(express.urlencoded({ limit: "5mb", extended: true }));
 
-app.listen(process.env.PORT, (port) => {
+  server.listen(process.env.PORT, (port) => {
   console.log(`Server is running on port ${process.env.PORT}`);
 });
