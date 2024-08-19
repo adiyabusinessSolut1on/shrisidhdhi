@@ -11,7 +11,7 @@ const rootEndPoint = require("./config/endpoint");
 const cookieParser = require('cookie-parser');
 app.use(cookieParser());
 
-const allowedDomains = process.env.ALLOWED_DOMAINS.split(',');
+const allowedDomains = process.env.ALLOWED_DOMAINS.split(' ');
 
 const corsOptions = {
   origin: function (origin, callback) {
