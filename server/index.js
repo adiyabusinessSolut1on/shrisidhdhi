@@ -14,13 +14,7 @@ app.use(cookieParser());
 const allowedDomains = process.env.ALLOWED_DOMAINS.split(' ');
 
 const corsOptions = {
-  origin: function (origin, callback) {
-    if (!origin || allowedDomains.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
+  origin: "https://shrisidhdhi-admin.vercel.app",
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   allowedHeaders: ['Content-Type', 'Authorization',"authorization", 'Access-Control-Allow-Origin', 'Access-Control-Allow-Credentials'],
   credentials: true, 
