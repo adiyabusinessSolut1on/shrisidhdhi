@@ -87,7 +87,6 @@ const LoginVerify = async (req, res) => {
   try {
     const user = await User.findOne({ email, otp }).select("-password");
     if (!user) {
-      Alert(email);
       return res.status(401).json({ success: false, message: "Invalid OTP" });
     }
 
@@ -98,14 +97,14 @@ const LoginVerify = async (req, res) => {
         expiresIn: process.env.JWT_EXPIRE_TIME,
       }
     );
+
+    res.cookie("authorization", token, {
+      httpOnly: true,
+      secure: true,
+      expires: new Date(Date.now() + 24 * 60 * 60 * 1000),
+    });
+    console.log("Cookies set in response:>>", res.getHeader("Set-Cookie"));
     return res
-      .cookie("authorization", token, {
-        httpOnly: true,
-        secure: process.env.NODE_ENV === 'production',
-        sameSite: 'None',
-        domain:".vercel.app",
-        expires: new Date(Date.now() + 24 * 60 * 60 * 1000),
-      })
       .status(200)
       .json({ success: true, message: "Login successful", token: token });
   } catch (error) {
@@ -115,6 +114,7 @@ const LoginVerify = async (req, res) => {
     });
   }
 };
+
 const getAdmin = async (req, res) => {
   try {
     const user = await User.findById(req.userId)

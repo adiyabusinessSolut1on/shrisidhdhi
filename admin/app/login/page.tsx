@@ -128,7 +128,7 @@ const OTPVerify = ({ email, onclickSing }: prop) => {
       { email, otp },
       {
         onSuccess: (response) => {
-          console.log("Every >re>>", response);
+          
           if (response?.data.success) {
             router.push("/");
           }
@@ -172,13 +172,12 @@ const OTPVerify = ({ email, onclickSing }: prop) => {
   };
 
   const handleChange = (index: number, value: string) => {
-    if (value.length > 1 || isNaN(parseInt(value))) return; // Ensure only single numeric character is entered
+    if (value.length > 1 || isNaN(parseInt(value))) return; 
 
     const newOtp = [...verifyotp];
     newOtp[index] = value;
     setOtp(newOtp);
 
-    // Move focus to the next input if a value is entered
     if (value !== "" && index < 5) {
       inputRefs.current[index + 1]?.focus();
     }

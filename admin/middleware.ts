@@ -18,7 +18,7 @@ export async function middleware(request: NextRequest) {
 
     if (authPages.includes(pathname)) {
         if (token) {
-            return NextResponse.redirect(new URL("/report", request.url));
+            return NextResponse.redirect(new URL("/", request.url));
         }
     }
 
