@@ -11,17 +11,19 @@ const rootEndPoint = require("./config/endpoint");
 const cookieParser = require('cookie-parser');
 app.use(cookieParser());
 
+const allowedDomains = process.env.ALLOWED_DOMAINS.split(',');
+
 const corsOptions = {
   origin: function (origin, callback) {
-    if (process.env.ALLOWED_DOMAINS.includes(origin)) {
+    if (!origin || allowedDomains.includes(origin)) {
       callback(null, true);
     } else {
       callback(new Error('Not allowed by CORS'));
     }
   },
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-  allowedHeaders: 'Content-Type,authorization',
-  credentials: true,
+  allowedHeaders: ['Content-Type', 'Authorization', 'Access-Control-Allow-Origin', 'Access-Control-Allow-Credentials'],
+  credentials: true, 
 };
 app.use(cors(corsOptions));
 
